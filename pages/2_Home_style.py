@@ -73,53 +73,6 @@ def show_home():
                 -webkit-font-smoothing: antialiased;
             }
             
-            /* Hero Section */
-            .hero-container {
-                background: linear-gradient(135deg, var(--primary) 0%, #0f2a3f 100%);
-                color: white;
-                padding: 60px 20px;
-                border-radius: 15px;
-                margin-bottom: 30px;
-                position: relative;
-                overflow: hidden;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            }
-            
-            .hero-container::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 40%;
-                height: 100%;
-                background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%23ff6e40" opacity="0.2"/></svg>');
-                background-size: cover;
-                z-index: 1;
-            }
-            
-            .header-container {
-                display: flex;
-                align-items: center;
-                padding: 10px 0;
-                margin-bottom: 20px;
-            }
-            
-            .logo-container {
-                flex: 0 0 auto;
-                margin-right: 20px;
-            }
-            
-            .title-container {
-                flex: 1 1 auto;
-                text-align: left;
-            }
-            
-            .logo-image {
-                max-height: 70px;
-                width: auto;
-                filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3));
-            }
-            
             /* Feature Cards */
             .feature-container {
                 text-align: center;
@@ -259,9 +212,6 @@ def show_home():
             
             /* Responsive Styles */
             @media screen and (max-width: 768px) {
-                .hero-container::after {
-                    display: none;
-                }
                 .header-container {
                     flex-direction: column;
                     text-align: center;
@@ -286,18 +236,6 @@ def show_home():
                 margin-top: 40px;
             }
             
-            /* Custom wave separator */
-            .wave-separator {
-                height: 70px;
-                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="%23f5f5f5"></path></svg>');
-                background-size: cover;
-                background-repeat: no-repeat;
-                margin-top: -60px;
-                margin-bottom: -20px;
-                position: relative;
-                z-index: 2;
-            }
-            
             /* Progress bar styling */
             .progress-container {
                 width: 100%;
@@ -312,64 +250,145 @@ def show_home():
                 border-radius: 4px;
                 background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
             }
+            
+            /* Banner styling */
+            .main-banner {
+                background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%);
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 30px;
+                display: flex;
+                align-items: center;
+                position: relative;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            
+            .logo-area {
+                flex: 0 0 auto;
+                margin-right: 20px;
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1;
+            }
+            
+            .title-area {
+                flex: 1;
+                text-align: center;
+                z-index: 1;
+            }
+            
+            .banner-decoration {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 40%;
+                height: 100%;
+                background: linear-gradient(135deg, transparent 50%, rgba(255, 110, 64, 0.2) 100%);
+            }
+            
+            .banner-title {
+                font-size: 3rem;
+                font-weight: 700;
+                margin: 0;
+                color: white;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            
+            .banner-subtitle {
+                font-size: 1.3rem;
+                font-style: italic;
+                margin: 5px 0 0 0;
+                color: rgba(255,255,255,0.9);
+                text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            }
+            
+            .hero-banner {
+                background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%);
+                border-radius: 15px;
+                padding: 40px 20px;
+                margin-bottom: 30px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .hero-title {
+                font-size: 2.3rem;
+                color: white;
+                margin-bottom: 1.5rem;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+                font-weight: 700;
+                letter-spacing: 0.5px;
+            }
+            
+            .hero-text {
+                font-size: 1.4rem;
+                color: rgba(255,255,255,0.95);
+                max-width: 800px;
+                margin: 0 auto 30px;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            }
         </style>
     """, unsafe_allow_html=True)
     
     # Try to load logo path
     logo_path = get_logo_path()
     
-    # Create a single integrated banner with logo and text
-    st.markdown("""
-        <div style="background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%); 
-                    padding: 20px 30px;
-                    width: 100%; 
-                    margin-bottom: 40px;
-                    position: relative;
-                    overflow: hidden;
-                    border-radius: 15px;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                    display: flex;
-                    align-items: center;">
-            
-            <!-- Logo container (left aligned) -->
-            <div style="flex: 0 0 auto; margin-right: 20px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-    """, unsafe_allow_html=True)
+    # Top banner with logo and title - Using Streamlit columns for safer layout
+    col1, col2, col3 = st.columns([1, 3, 1])
     
-    # Add logo if available
-    if logo_path:
-        st.markdown(f"""
-                <img src="data:image/png;base64,{get_image_as_base64(logo_path)}" style="max-height: 80px; width: auto;">
-            </div>
-        """, unsafe_allow_html=True)
-    else:
+    with col1:
+        # Logo container
+        if logo_path:
+            st.markdown(f"""
+                <div class="logo-area">
+                    <img src="data:image/png;base64,{get_image_as_base64(logo_path)}" style="max-height: 80px; width: auto;">
+                </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+                <div class="logo-area">
+                    <div style="font-size: 2rem; font-weight: 700; color: #1e3d59;">R</div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    with col2:
+        # Title container
         st.markdown("""
-                <div style="font-size: 2rem; font-weight: 700; color: #1e3d59;">R</div>
+            <div class="title-area">
+                <h1 class="banner-title">RemandIn</h1>
+                <p class="banner-subtitle">Take Training into Your Hands</p>
             </div>
         """, unsafe_allow_html=True)
     
-    # Add title text (centered within the remaining space)
+    # Hero section with background decoration
     st.markdown("""
-            <!-- Title container (centered in remaining space) -->
-            <div style="flex: 1; text-align: center;">
-                <h1 style="font-size: 3rem; font-weight: 700; margin: 0; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">RemandIn</h1>
-                <p style="font-size: 1.3rem; font-style: italic; margin: 0; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Take Training into Your Hands</p>
-            </div>
-            
-            <!-- Background decoration -->
-            <div style="position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(135deg, transparent 50%, rgba(255, 110, 64, 0.2) 100%);"></div>
+        <div class="hero-banner">
+            <h2 class="hero-title">
+                Reclaim your rhythm. Track every stroke. Measure your speed.
+            </h2>
+            <p class="hero-text">
+                <strong>Remand</strong> your training. Own your progress. Command your journey.
+            </p>
+            <button 
+                onclick="
+                    // Get the sidebar element 
+                    const sidebar = window.parent.document.querySelector('.st-emotion-cache-1cypcdb, .st-emotion-cache-z5fcl4, .css-1cypcdb, .css-z5fcl4');
+                    // Toggle sidebar by clicking the burger menu if sidebar is not expanded
+                    if(sidebar && !sidebar.classList.contains('--expanded')) {
+                        const burgerMenu = window.parent.document.querySelector('[data-testid=\\"BurgerMenu\\"]');
+                        if(burgerMenu) burgerMenu.click();
+                    }
+                "
+                class="custom-button">
+                Start Training Now
+            </button>
+            <div class="banner-decoration"></div>
         </div>
-    """, unsafe_allow_html=True)
-    
-    # Add a second banner for the hero section
-    st.markdown("""
-        <div style="background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%); 
-                    padding: 40px 30px;
-                    width: 100%; 
-                    margin-bottom: 40px;
-                    position: relative;
-                    overflow: hidden;
-                    border-radius: 15px;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     """, unsafe_allow_html=True)
     
     # Main headline and call to action with sidebar toggle functionality
