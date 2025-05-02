@@ -24,6 +24,13 @@ def get_image_as_base64(image_path):
         return base64.b64encode(image_file.read()).decode()
 
 def show_home():
+    # Set Streamlit page configuration
+    st.set_page_config(
+        page_title="RemandIn - Take Training into Your Hands",
+        page_icon="🚣",
+        layout="wide",
+        initial_sidebar_state="collapsed"
+    )
     
     # Add custom CSS with improved styling
     st.markdown("""
@@ -311,73 +318,63 @@ def show_home():
     # Try to load logo path
     logo_path = get_logo_path()
     
-    # Create a cleaner heading with separate banner and logo
-    # First, a full-width banner at the top
+    # Create a single integrated banner with logo and text
     st.markdown("""
         <div style="background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%); 
-                    height: 120px; 
+                    padding: 20px 30px;
                     width: 100%; 
                     margin-bottom: 40px;
                     position: relative;
                     overflow: hidden;
-                    border-radius: 0 0 15px 15px;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-            <div style="position: absolute; 
-                        bottom: 0; 
-                        right: 0; 
-                        width: 40%; 
-                        height: 100%; 
-                        background: linear-gradient(135deg, transparent 50%, rgba(255, 110, 64, 0.2) 100%);">
+                    border-radius: 15px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                    display: flex;
+                    align-items: center;">
+            
+            <!-- Logo container (left aligned) -->
+            <div style="flex: 0 0 auto; margin-right: 20px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+    """, unsafe_allow_html=True)
+    
+    # Add logo if available
+    if logo_path:
+        st.markdown(f"""
+                <img src="data:image/png;base64,{get_image_as_base64(logo_path)}" style="max-height: 80px; width: auto;">
             </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+                <div style="font-size: 2rem; font-weight: 700; color: #1e3d59;">R</div>
+            </div>
+        """, unsafe_allow_html=True)
+    
+    # Add title text (centered within the remaining space)
+    st.markdown("""
+            <!-- Title container (centered in remaining space) -->
+            <div style="flex: 1; text-align: center;">
+                <h1 style="font-size: 3rem; font-weight: 700; margin: 0; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">RemandIn</h1>
+                <p style="font-size: 1.3rem; font-style: italic; margin: 0; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">Take Training into Your Hands</p>
+            </div>
+            
+            <!-- Background decoration -->
+            <div style="position: absolute; bottom: 0; right: 0; width: 40%; height: 100%; background: linear-gradient(135deg, transparent 50%, rgba(255, 110, 64, 0.2) 100%);"></div>
         </div>
     """, unsafe_allow_html=True)
     
-    # Then logo and title in a separate container with proper spacing
-    logo_col, title_col = st.columns([1, 4])
-    
-    with logo_col:
-        if logo_path:
-            st.markdown(f"""
-                <div style="background: white; 
-                           padding: 15px; 
-                           border-radius: 10px; 
-                           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-                           text-align: center;
-                           margin-top: -80px;
-                           position: relative;
-                           z-index: 10;">
-                    <img src="data:image/png;base64,{get_image_as_base64(logo_path)}" style="max-height: 80px; width: auto;">
-                </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-                <div style="background: white; 
-                           padding: 15px; 
-                           border-radius: 10px; 
-                           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-                           text-align: center;
-                           margin-top: -80px;
-                           position: relative;
-                           z-index: 10;">
-                    <div style="font-size: 2rem; font-weight: 700; color: #1e3d59;">R</div>
-                </div>
-            """, unsafe_allow_html=True)
-    
-    with title_col:
-        st.markdown("""
-            <div style="padding: 10px 0 30px 10px;">
-                <h1 style="font-size: 2.8rem; font-weight: 700; margin: 0; color: #1e3d59;">RemandIn</h1>
-                <p style="font-size: 1.3rem; font-style: italic; margin: 0; color: #666;">Take Training into Your Hands</p>
-            </div>
-        """, unsafe_allow_html=True)
-        
-    # Hero Section with main content - now separate from header
+    # Add a second banner for the hero section
     st.markdown("""
-        <div class="hero-container" style="margin-top: 20px;">
+        <div style="background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%); 
+                    padding: 40px 30px;
+                    width: 100%; 
+                    margin-bottom: 40px;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 15px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     """, unsafe_allow_html=True)
     
-    # Main headline and call to action with improved text visibility
+    # Main headline and call to action with sidebar toggle functionality
     st.markdown("""
+            <!-- Main hero content -->
             <div style='text-align: center; margin: 2rem 0; position: relative; z-index: 2;'>
                 <h2 style='font-size: 2.3rem; color: white; margin-bottom: 1.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3); font-weight: 700; letter-spacing: 0.5px;'>
                     Reclaim your rhythm. Track every stroke. Measure your speed.
@@ -385,7 +382,18 @@ def show_home():
                 <p style='font-size: 1.4rem; color: rgba(255,255,255,0.95); max-width: 800px; margin: 0 auto 30px; text-shadow: 0 1px 3px rgba(0,0,0,0.2);'>
                     <strong>Remand</strong> your training. Own your progress. Command your journey.
                 </p>
-                <button class="custom-button" style="font-size: 1.2rem; padding: 12px 30px; cursor: pointer;">
+                <button 
+                    onclick="
+                        // Get the sidebar element 
+                        const sidebar = window.parent.document.querySelector('.st-emotion-cache-1cypcdb, .st-emotion-cache-z5fcl4, .css-1cypcdb, .css-z5fcl4');
+                        // Toggle sidebar by clicking the burger menu if sidebar is not expanded
+                        if(sidebar && !sidebar.classList.contains('--expanded')) {
+                            const burgerMenu = window.parent.document.querySelector('[data-testid=\\"BurgerMenu\\"]');
+                            if(burgerMenu) burgerMenu.click();
+                        }
+                    "
+                    class="custom-button" 
+                    style="font-size: 1.2rem; padding: 12px 30px; cursor: pointer; background: linear-gradient(135deg, #ff6e40 0%, #ff8a65 100%); border: none; color: white; border-radius: 30px; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(255, 110, 64, 0.3);">
                     Start Training Now
                 </button>
             </div>
