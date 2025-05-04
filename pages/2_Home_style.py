@@ -6,17 +6,12 @@ import base64
 # Function to get relative path to the logo
 def get_logo_path():
     """Get the path to the logo file"""
-    # Starting from the current file's directory
     current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
-    # Go up one level to the parent directory (from 'home' to the project root)
     parent_dir = current_dir.parent
-    # Path to logo
     logo_path = parent_dir / 'static' / 'images' / 'logo.png'
-    
     if logo_path.exists():
         return str(logo_path)
-    else:
-        return None
+    return None
 
 # Function to convert image to base64 for inline display
 def get_image_as_base64(image_path):
@@ -24,105 +19,113 @@ def get_image_as_base64(image_path):
         return base64.b64encode(image_file.read()).decode()
 
 def show_home():
-    # Streamlit config
+    # Set Streamlit page configuration
     st.set_page_config(
         page_title="RemandIn - Take Training into Your Hands",
         page_icon="🚣",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
-
+    
+    # Try to load logo path
     logo_path = get_logo_path()
-
-    # CSS styles
+    
+    # Define CSS styles
     st.markdown("""
         <style>
-            body {
-                font-family: 'Helvetica', sans-serif;
-                background-color: #f5f7fa;
+            * {
+                font-family: 'Helvetica', 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
-
-            .header-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-                background-color: white;
-                border-radius: 10px;
-                margin-bottom: 30px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
-
-            .header-logo {
-                max-height: 70px;
-                margin-right: 20px;
-            }
-
             .main-banner {
                 background: linear-gradient(90deg, #1e3d59 0%, #0f2a3f 100%);
-                padding: 50px 30px;
-                border-radius: 20px;
+                border-radius: 15px;
+                padding: 30px 20px;
+                margin-bottom: 20px;
+                width: 100%;
                 text-align: center;
-                color: white;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                position: relative;
+                overflow: hidden;
             }
-
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2.3rem;
                 font-weight: 700;
-                margin-bottom: 1rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.3rem;
-                margin-bottom: 2rem;
-                opacity: 0.95;
-            }
-
-            .cta-button {
-                background-color: #ff6e40;
-                padding: 14px 32px;
-                border: none;
-                border-radius: 30px;
                 color: white;
+                margin-bottom: 1rem;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .hero-subtitle {
+                font-size: 1.4rem;
+                color: rgba(255,255,255,0.95);
+                margin-bottom: 2rem;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            }
+            .action-button {
+                background: #ff6e40;
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 30px;
                 font-size: 1.2rem;
                 font-weight: 600;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-                transition: all 0.3s ease;
                 cursor: pointer;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                transition: all 0.3s ease;
             }
-
-            .cta-button:hover {
-                background-color: #ff8a65;
+            .action-button:hover {
+                background: #ff8a65;
                 transform: translateY(-2px);
-                box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+                box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            }
+            .highlight {
+                color: #ff6e40;
+                font-weight: 700;
             }
         </style>
     """, unsafe_allow_html=True)
-
+    
     # Header with logo and title
-    st.markdown('<div class="header-container">', unsafe_allow_html=True)
-
     if logo_path:
-        logo_base64 = get_image_as_base64(logo_path)
-        st.markdown(
-            f'<img class="header-logo" src="data:image/png;base64,{logo_base64}"/>',
-            unsafe_allow_html=True
-        )
-
-    st.markdown(
-        '<h1 style="margin: 0; color: #1e3d59; font-weight: 700;">Take Training into Your Hands</h1>',
-        unsafe_allow_html=True
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
-
-    # Main banner
+        st.markdown(f"""
+            <div style="display: flex; align-items: center; padding: 20px; background: white; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="flex: 0 0 auto; margin-right: 20px;">
+                    <img src="data:image/png;base64,{get_image_as_base64(logo_path)}" style="max-height: 70px; width: auto;">
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <h1 style="font-size: 2rem; color: #1e3d59; margin: 0; font-weight: 700;">Take Training into Your Hands</h1>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+            <div style="display: flex; align-items: center; padding: 20px; background: white; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="flex: 0 0 auto; margin-right: 20px; font-size: 2.5rem; color: #1e3d59; font-weight: 700;">R</div>
+                <div style="flex: 1; text-align: center;">
+                    <h1 style="font-size: 2rem; color: #1e3d59; margin: 0; font-weight: 700;">Take Training into Your Hands</h1>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+    
+    # Main banner with hero text and button
     st.markdown("""
         <div class="main-banner">
             <h2 class="hero-title">Reclaim your rhythm. Track every stroke. Measure your speed.</h2>
-            <p class="hero-subtitle"><span style="color: #ff6e40; font-weight: bold;">Remand</span> your training. Own your progress. Command your journey.</p>
-            <button class="cta-button" onclick="window.location.href = '/SomeOtherPage'">Start Training Now</button>
+            <p class="hero-subtitle"><span class="highlight">Remand</span> your training. Own your progress. Command your journey.</p>
+            <button 
+                onclick="
+                    const sidebar = window.parent.document.querySelector('.st-emotion-cache-1cypcdb, .st-emotion-cache-z5fcl4, .css-1cypcdb, .css-z5fcl4');
+                    if(sidebar && !sidebar.classList.contains('--expanded')) {
+                        const burgerMenu = window.parent.document.querySelector('[data-testid=\\"BurgerMenu\\"]');
+                        if(burgerMenu) burgerMenu.click();
+                    }
+                "
+                class="action-button">
+                Start Training Now
+            </button>
         </div>
     """, unsafe_allow_html=True)
+
 if __name__ == "__main__":
     show_home()
