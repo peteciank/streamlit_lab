@@ -115,10 +115,9 @@ def show_home():
             <p class="hero-subtitle"><span class="highlight">Remand</span> your training. Own your progress. Command your journey.</p>
             <button 
                 onclick="
-                    const sidebar = window.parent.document.querySelector('.st-emotion-cache-1cypcdb, .st-emotion-cache-z5fcl4, .css-1cypcdb, .css-z5fcl4');
-                    if(sidebar && !sidebar.classList.contains('--expanded')) {
-                        const burgerMenu = window.parent.document.querySelector('[data-testid=\\"BurgerMenu\\"]');
-                        if(burgerMenu) burgerMenu.click();
+                    const burgerMenu = document.querySelector('[data-testid=\"BurgerMenu\"]');
+                    if (burgerMenu) {
+                        burgerMenu.click();
                     }
                 "
                 class="action-button">
