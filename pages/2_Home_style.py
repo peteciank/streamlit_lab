@@ -111,7 +111,7 @@ def show_home():
     # Main banner with hero text and button
     st.markdown("""
         <div class="main-banner">
-            <h2 class="hero-title">Reclaim your rhythm. Track every stroke. Measure your speed.</h2>
+            <h2 class="hero-title">Reclaim your rhythm. Track every stroke. Measure your speed!</h2>
             <p class="hero-subtitle"><span class="highlight">Remand</span> your training. Own your progress. Command your journey.</p>
             <button 
                 onclick="
