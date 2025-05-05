@@ -25,7 +25,7 @@ pg = st.navigation(
         "Home": [home],
         "Organizers": [col_size],
         "DB": [db_start],
-        "Styling": [data_app, counter],
+        #"Styling": [data_app, counter],
     }, position="sidebar"
 )
 
