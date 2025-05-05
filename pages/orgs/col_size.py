@@ -1,6 +1,14 @@
 import streamlit as st
 
+
+
 st.set_page_config(layout="wide")  # For better column distribution
+
+
+with open('static/css/style_back.css') as f:
+    css = f.read()
+
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns((1, 2, 3))  # Create columns with different widths
 
