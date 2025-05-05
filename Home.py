@@ -14,7 +14,7 @@ col_size = st.Page("pages/orgs/col_size.py", title="Columns Sizing", icon=":mate
 db_start = st.Page("pages/db/bi/src/app.py", title="DB", icon=":material/database:")
 
 # ----------- Styling -------------------------
-data_app = st.Page("pages/styling/superapp.py", title="DB", icon=":material/application:")
+data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/application:")
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/clock:")
 
 
@@ -25,6 +25,7 @@ pg = st.navigation(
         "Home": [home],
         "Organizers": [col_size],
         "DB": [db_start],
+        "Styling": [data_app, counter],
     }, position="sidebar"
 )
 
