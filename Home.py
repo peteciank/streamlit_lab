@@ -3,7 +3,7 @@ import streamlit as st
 st.cache_data.clear()
 
 # ---------- Home ------------------------
-home = st.Page("pages/home/home_style.py", title="Streamlit Lab", icon=":material/lab:")
+home = st.Page("pages/home/home_style.py", title="Streamlit Lab", icon=":material/rowing:")
 
 
 
