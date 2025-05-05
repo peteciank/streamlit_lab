@@ -2,7 +2,7 @@ import streamlit as st
 
 # Define CSS with increased specificity for hero-title
 
-with open('static/style_home.css') as f:
+with open('static/css/style_home.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Main banner content with button to toggle sidebar
