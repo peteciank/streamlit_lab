@@ -15,7 +15,7 @@ db_start = st.Page("pages/db/bi/src/app.py", title="DB", icon=":material/databas
 
 # ----------- Styling -------------------------
 data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/database:")
-counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/clock:")
+counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/database:")
 
 
 
