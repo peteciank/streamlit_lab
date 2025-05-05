@@ -15,6 +15,10 @@ db_start = st.Page("pages/db/bi/src/app.py", title="DB", icon=":material/databas
 db_api = st.Page("pages/db/bi/src/api.py", title="API", icon=":material/database:")
 db_call_api = st.Page("pages/db/bi/src/pages/call_api.py", title="Call API", icon=":material/database:")
 db_upload = st.Page("pages/db/bi/src/pages/upload_data.py", title="Upload Data", icon=":material/database:")
+db_delete_query = st.Page("pages/db/bi/src/pages/delete_query.py", title="Delete Query", icon=":material/database:")
+db_delete_table = st.Page("pages/db/bi/src/pages/delete_table.py", title="Delete Table", icon=":material/database:")
+db_plot = st.Page("pages/db/bi/src/pages/plot_results.py", title="Plot Results", icon=":material/database:")
+db_save = st.Page("pages/db/bi/src/pages/save_query.py", title="Save Query", icon=":material/database:")
 
 
 # ----------- Styling -------------------------
@@ -28,7 +32,7 @@ pg = st.navigation(
     {
         "Home": [home],
         "Organizers": [col_size],
-        "DB": [db_start, db_api, db_call_api, db_upload],
+        "DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
         #"Styling": [data_app, counter],
     }, position="sidebar"
 )
