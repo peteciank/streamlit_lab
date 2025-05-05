@@ -11,3 +11,10 @@
     background-size: 400% 400%;
     background-attachment: fixed;
 }
+
+.stVerticalBlock {
+    background-color: #EEEEEE;
+    border: 2px solid #CCCCCC;
+    padding: 5% 5% 5% 10%;
+    border-radius: 5px;
+}
