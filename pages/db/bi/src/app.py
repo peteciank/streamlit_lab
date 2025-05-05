@@ -1,7 +1,7 @@
 import streamlit as st
 from lib.utils import create_connection
 
-
+#pages/db/bi/src/lib/utils.py
 # make sure the db exists irrespective of where user comes from
 create_connection('core.db')
 
