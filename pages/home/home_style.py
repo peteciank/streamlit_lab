@@ -6,26 +6,26 @@ with open('static/css/style_home.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Main banner content with button to toggle sidebar
-st.markdown("""
+# Render HTML and JavaScript using st.components.v1.html
+st.components.v1.html("""
 <div class="main-banner">
     <h2 class="hero-title">This is my Streamlit Lab, This is my kingdom come!</h2>
     <p class="hero-subtitle">I will test all new features in this streamlit lab before moving them to other environments</p>
-    <button 
-        onclick="
-            console.log('Button clicked');
-            const burgerMenu = document.querySelector('[data-testid="stSidebar"]');
-            if (burgerMenu) {
-                console.log('Burger menu found');
-                burgerMenu.click();
-            } else {
-                console.log('Burger menu not found');
-            }
-        "
-        class="action-button">
-        Browse Other Pages for More!
-    </button>
+    <button id="browse-button" class="action-button">Browse Other Pages for More!</button>
 </div>
-""", unsafe_allow_html=True)
+<script>
+    document.getElementById('browse-button').addEventListener('click', function() {
+        console.log('Button clicked');
+        const burgerMenu = window.parent.document.querySelector('[data-testid="stSidebarToggle"]');
+        if (burgerMenu) {
+            console.log('Burger menu found');
+            burgerMenu.click();
+        } else {
+            console.log('Burger menu not found');
+        }
+    });
+</script>
+""", height=300)
 
 # Sidebar configuration
 st.sidebar.title("Sidebar")
