@@ -12,6 +12,10 @@ col_size = st.Page("pages/orgs/col_size.py", title="Columns Sizing", icon=":mate
 
 # ---------- DB -------------------
 db_start = st.Page("pages/db/bi/src/app.py", title="DB", icon=":material/database:")
+db_api = st.Page("pages/db/bi/src/api.py", title="API", icon=":material/database:")
+db_call_api = st.Page("pages/db/bi/src/call_api.py", title="Call API", icon=":material/database:")
+db_upload = st.Page("pages/db/bi/src/upload_data.py", title="Upload Data", icon=":material/database:")
+
 
 # ----------- Styling -------------------------
 data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/database:")
@@ -24,7 +28,7 @@ pg = st.navigation(
     {
         "Home": [home],
         "Organizers": [col_size],
-        "DB": [db_start],
+        "DB": [db_start, db_api, db_call_api, db_upload],
         #"Styling": [data_app, counter],
     }, position="sidebar"
 )
