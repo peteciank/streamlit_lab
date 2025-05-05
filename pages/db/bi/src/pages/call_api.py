@@ -3,7 +3,7 @@ from lib.utils import sql_to_df, create_connection
 import requests
 
 
-queries_conn = create_connection('queries.db')
+queries_conn = create_connection('./queries.db')
 queries_df = sql_to_df(queries_conn, 'select * from queries')
 selected_query = st.selectbox('Query to Execute', list(queries_df['query_name']))
 
