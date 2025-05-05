@@ -13,7 +13,7 @@ st.markdown("""
     <button 
         onclick="
             console.log('Button clicked');
-            const burgerMenu = document.querySelector('[data-testid=\"stSidebarContent\"]');
+            const burgerMenu = document.querySelector('[data-testid=\"stSidebar\"]');
             if (burgerMenu) {
                 console.log('Burger menu found');
                 burgerMenu.click();
