@@ -1,5 +1,6 @@
 import streamlit as st
-from static.utils import create_connection
+from lib.utils import create_connection
+
 
 # make sure the db exists irrespective of where user comes from
 create_connection('core.db')
