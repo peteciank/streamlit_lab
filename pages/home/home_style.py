@@ -10,21 +10,20 @@ st.markdown("""
 <div class="main-banner">
     <h2 class="hero-title">This is my Streamlit Lab, This is my kingdom come!</h2>
     <p class="hero-subtitle">I will test all new features in this streamlit lab before moving them to other environments</p>
-    <button 
-        onclick="
-            console.log('Button clicked');
-            const burgerMenu = document.querySelector('[data-testid="stSidebar"]');
-            if (burgerMenu) {
-                console.log('Burger menu found');
-                burgerMenu.click();
-            } else {
-                console.log('Burger menu not found');
-            }
-        "
-        class="action-button">
-        Browse Other Pages for More!
-    </button>
+    <button id="browse-button" class="action-button">Browse Other Pages for More!</button>
 </div>
+<script>
+    document.getElementById('browse-button').addEventListener('click', function() {
+        console.log('Button clicked');
+        const burgerMenu = window.parent.document.querySelector('[data-testid="stSidebarToggle"]');
+        if (burgerMenu) {
+            console.log('Burger menu found');
+            burgerMenu.click();
+        } else {
+            console.log('Burger menu not found');
+        }
+    });
+</script>
 """, unsafe_allow_html=True)
 
 # Sidebar configuration
