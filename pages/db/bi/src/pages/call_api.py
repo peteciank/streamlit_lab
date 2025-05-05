@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import sql_to_df, create_connection
+from lib.utils import sql_to_df, create_connection
 import requests
 
 

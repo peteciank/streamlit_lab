@@ -1,5 +1,5 @@
 import streamlit as st 
-from utils import create_connection, instantiate_queries_table
+from lib.utils import create_connection, instantiate_queries_table
 import pandas as pd
 import os
 

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Path
-from utils import create_connection, sql_to_df
+from lib.utils import create_connection, sql_to_df
 import pandas as pd
 
 app = FastAPI()

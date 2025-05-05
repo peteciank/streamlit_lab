@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from utils import create_connection, sql_to_df, instantiate_queries_table
+from lib.utils import create_connection, sql_to_df, instantiate_queries_table
 import os
 import pandas as pd
 

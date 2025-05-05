@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import create_connection
+from lib.utils import create_connection
 import pandas as pd
 import os
 
