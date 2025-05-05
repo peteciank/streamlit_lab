@@ -8,12 +8,12 @@ with open('static/css/style_home.css') as f:
 # Main banner content with button to toggle sidebar
 st.markdown("""
 <div class="main-banner">
-    <h2 class="hero-title">Reclaim your rhythm. Track every stroke. Measure your speed!</h2>
-    <p class="hero-subtitle">Remand your training. Own your progress. Command your journey.</p>
+    <h2 class="hero-title">This is my Streamlit Lab, This is my kingdom come!</h2>
+    <p class="hero-subtitle">I will test all new features in this streamlit lab before moving them to other environments</p>
     <button 
         onclick="
             console.log('Button clicked');
-            const burgerMenu = document.querySelector('[data-testid=\"BurgerMenu\"]');
+            const burgerMenu = document.querySelector('[data-testid=\"stSidebarContent\"]');
             if (burgerMenu) {
                 console.log('Burger menu found');
                 burgerMenu.click();
@@ -22,7 +22,7 @@ st.markdown("""
             }
         "
         class="action-button">
-        Start Training Now
+        Browse Other Pages for More!
     </button>
 </div>
 """, unsafe_allow_html=True)
