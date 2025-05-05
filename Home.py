@@ -14,7 +14,7 @@ col_size = st.Page("pages/orgs/col_size.py", title="Columns Sizing", icon=":mate
 db_start = st.Page("pages/db/bi/src/app.py", title="DB", icon=":material/database:")
 
 # ----------- Styling -------------------------
-data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/mobile:")
+data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/database:")
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/clock:")
 
 
