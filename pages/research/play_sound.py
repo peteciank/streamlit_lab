@@ -30,7 +30,7 @@ st.markdown("""
     }
 </style>
 <audio id="beat-sound" preload="auto">
-    <source src="tom.mp3" type="audio/mpeg">
+    <source src="pages/research/tom.mp3" type="audio/mpeg">
 </audio>
 <script>
     function playBeat() {
