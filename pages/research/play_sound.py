@@ -1,19 +1,27 @@
-#import streamlit as st
-
-#st.audio("pages/research/tom.mp3", format="audio/mpeg", loop=True)
-
 import streamlit as st
 import time
 import pygame
 import threading
+import os
 
 # Initialize session state for controlling the beat
 if 'is_playing' not in st.session_state:
     st.session_state.is_playing = False
 
-# Initialize pygame mixer
-pygame.mixer.init()
-beat_sound = pygame.mixer.Sound("pages/research/tom.mp3")
+# Initialize pygame mixer with error handling
+try:
+    pygame.mixer.init()
+    # Check if the audio file exists
+    audio_file = "tom.mp3"
+    if os.path.exists(audio_file):
+        beat_sound = pygame.mixer.Sound(audio_file)
+        audio_enabled = True
+    else:
+        st.warning("Audio file not found. Visual metronome will run without sound.")
+        audio_enabled = False
+except Exception as e:
+    st.warning("Could not initialize audio. Visual metronome will run without sound.")
+    audio_enabled = False
 
 # Add custom CSS for the beat indicator
 st.markdown("""
@@ -45,7 +53,8 @@ beat_placeholder = st.empty()
 
 def play_beat():
     """Play the beat sound"""
-    beat_sound.play()
+    if audio_enabled:
+        beat_sound.play()
 
 # Create two columns for the controls
 col1, col2 = st.columns(2)
