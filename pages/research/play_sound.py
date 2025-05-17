@@ -5,7 +5,7 @@ import time
 if 'is_playing' not in st.session_state:
     st.session_state.is_playing = False
 
-# Add custom CSS and JavaScript for beat indicator and audio
+# Add custom CSS and JavaScript for beat indicator and audio synthesis
 st.markdown("""
 <style>
     .beat-container {
@@ -27,74 +27,63 @@ st.markdown("""
     .beat-indicator.visible {
         opacity: 1;
     }
-    .audio-container {
-        display: none;
-    }
 </style>
 
-<div class="audio-container">
-    <audio id="beatSound" preload="auto">
-        <source src="pages/research/tom.mp3" type="audio/mpeg">
-    </audio>
-</div>
-
 <script>
-    // Create an array of audio elements for better performance
-    const NUM_AUDIO_ELEMENTS = 3;
-    let audioElements = [];
-    let currentAudioIndex = 0;
+    let audioContext;
 
-    // Initialize audio elements
+    // Initialize Web Audio API
     function initAudio() {
-        const template = document.getElementById('beatSound');
-        audioElements.push(template);
-        
-        // Create additional audio elements
-        for (let i = 1; i < NUM_AUDIO_ELEMENTS; i++) {
-            const audio = template.cloneNode(true);
-            audio.id = 'beatSound' + i;
-            template.parentNode.appendChild(audio);
-            audioElements.push(audio);
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
-
-        // Add click handler to start audio
-        document.addEventListener('click', function() {
-            audioElements.forEach(audio => {
-                if (audio.paused) {
-                    audio.volume = 0;
-                    audio.play().then(() => {
-                        audio.pause();
-                        audio.currentTime = 0;
-                        audio.volume = 1;
-                    }).catch(console.error);
-                }
-            });
-        });
+        return audioContext;
     }
 
-    // Initialize on page load
-    initAudio();
+    // Function to create a drum sound
+    function createDrumSound() {
+        const ctx = initAudio();
+        
+        // Create oscillator for the drum body
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        
+        // Set up oscillator
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        
+        // Set up gain
+        gainNode.gain.setValueAtTime(1, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        
+        // Connect nodes
+        osc.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        
+        // Start and stop
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.15);
+    }
 
     // Function to play the beat
     function playBeat() {
         try {
-            const audio = audioElements[currentAudioIndex];
-            audio.currentTime = 0;
-            audio.volume = 1;
-            
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Audio play error:", error);
-                });
+            // Initialize audio context on first interaction
+            if (!audioContext || audioContext.state === 'suspended') {
+                audioContext = initAudio();
+                audioContext.resume();
             }
-
-            // Update index for next play
-            currentAudioIndex = (currentAudioIndex + 1) % NUM_AUDIO_ELEMENTS;
+            createDrumSound();
         } catch (error) {
-            console.error("Error playing beat:", error);
+            console.error('Error playing beat:', error);
         }
     }
+
+    // Initialize audio on user interaction
+    document.addEventListener('click', function() {
+        initAudio();
+    });
 </script>
 """, unsafe_allow_html=True)
 
