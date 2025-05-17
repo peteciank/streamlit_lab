@@ -1,29 +1,12 @@
 import streamlit as st
 import time
-import pygame
-import threading
 import os
 
 # Initialize session state for controlling the beat
 if 'is_playing' not in st.session_state:
     st.session_state.is_playing = False
 
-# Initialize pygame mixer with error handling
-try:
-    pygame.mixer.init()
-    # Check if the audio file exists
-    audio_file = "tom.mp3"
-    if os.path.exists(audio_file):
-        beat_sound = pygame.mixer.Sound(audio_file)
-        audio_enabled = True
-    else:
-        st.warning("Audio file not found. Visual metronome will run without sound.")
-        audio_enabled = False
-except Exception as e:
-    st.warning("Could not initialize audio. Visual metronome will run without sound.")
-    audio_enabled = False
-
-# Add custom CSS for the beat indicator
+# Add custom CSS for the beat indicator and audio setup
 st.markdown("""
 <style>
     .beat-container {
@@ -46,15 +29,25 @@ st.markdown("""
         opacity: 1;
     }
 </style>
+<audio id="beat-sound" preload="auto">
+    <source src="tom.mp3" type="audio/mpeg">
+</audio>
+<script>
+    function playBeat() {
+        const audio = document.getElementById('beat-sound');
+        audio.currentTime = 0;
+        audio.play();
+    }
+</script>
 """, unsafe_allow_html=True)
 
 # Create placeholder for beat indicator
 beat_placeholder = st.empty()
 
 def play_beat():
-    """Play the beat sound"""
-    if audio_enabled:
-        beat_sound.play()
+    """Play the beat using browser audio"""
+    # The sound will be played by the JavaScript code
+    pass
 
 # Create two columns for the controls
 col1, col2 = st.columns(2)
@@ -89,14 +82,14 @@ if st.session_state.is_playing:
             # Calculate the interval based on current BPM
             interval = 60 / bpm
             
-            # Play the sound
-            play_beat()
-            
-            # Show beat indicator
+            # Show beat indicator and trigger sound
             beat_placeholder.markdown("""
                 <div class="beat-container">
                     <div class="beat-indicator visible">BEAT</div>
                 </div>
+                <script>
+                    playBeat();
+                </script>
             """, unsafe_allow_html=True)
             
             # Wait a short time to show the beat
@@ -116,4 +109,3 @@ if st.session_state.is_playing:
             
     except Exception as e:
         st.error(f"Error: {e}")
-        pygame.mixer.quit()

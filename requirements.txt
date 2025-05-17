@@ -5,5 +5,3 @@ plotly
 utils
 streamlit-superapp
 fastapi
-pygame
-sounddevice
