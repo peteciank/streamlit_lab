@@ -34,7 +34,7 @@ st.markdown("""
 
 <div class="audio-container">
     <audio id="beatSound" preload="auto">
-        <source src="tom.mp3" type="audio/mpeg">
+        <source src="pages/research/tom.mp3" type="audio/mpeg">
     </audio>
 </div>
 
