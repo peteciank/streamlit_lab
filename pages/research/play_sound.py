@@ -15,7 +15,7 @@ def get_audio_base64(audio_file_path):
 
 # Get the base64 encoded audio
 try:
-    audio_base64 = get_audio_base64("tom.mp3")
+    audio_base64 = get_audio_base64("pages/research/tom.mp3")
 except Exception as e:
     st.error(f"Could not load audio file: {e}")
     audio_base64 = ""
