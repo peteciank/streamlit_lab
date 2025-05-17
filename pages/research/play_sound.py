@@ -41,7 +41,7 @@ beat_placeholder = st.empty()
 audio_placeholder = st.empty()
 
 # Load the audio file once
-with open("tom.mp3", "rb") as f:
+with open("pages/research/tom.mp3", "rb") as f:
     audio_bytes = f.read()
 
 # Create two columns for the controls
