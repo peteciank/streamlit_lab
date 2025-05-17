@@ -1,35 +1,20 @@
 import streamlit as st
 import time
-import base64
-import os
 
 # Initialize session state for controlling the beat
 if 'is_playing' not in st.session_state:
     st.session_state.is_playing = False
 
-# Function to get base64 encoded audio
-def get_audio_base64(audio_file_path):
-    with open(audio_file_path, "rb") as f:
-        audio_bytes = f.read()
-    return base64.b64encode(audio_bytes).decode()
-
-# Get the base64 encoded audio
-try:
-    audio_base64 = get_audio_base64("pages/research/tom.mp3")
-except Exception as e:
-    st.error(f"Could not load audio file: {e}")
-    audio_base64 = ""
-
 # Add custom CSS and JavaScript for beat indicator and audio
-st.markdown(f"""
+st.markdown("""
 <style>
-    .beat-container {{
+    .beat-container {
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 20px 0;
-    }}
-    .beat-indicator {{
+    }
+    .beat-indicator {
         background-color: #ff4b4b;
         color: white;
         font-size: 48px;
@@ -38,63 +23,78 @@ st.markdown(f"""
         border-radius: 15px;
         opacity: 0;
         transition: opacity 0.1s;
-    }}
-    .beat-indicator.visible {{
+    }
+    .beat-indicator.visible {
         opacity: 1;
-    }}
+    }
+    .audio-container {
+        display: none;
+    }
 </style>
 
+<div class="audio-container">
+    <audio id="beatSound" preload="auto">
+        <source src="tom.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
 <script>
-    let audioContext;
-    let audioBuffer;
-    
-    // Function to decode base64 to array buffer
-    function base64ToArrayBuffer(base64) {{
-        const binaryString = window.atob(base64);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {{
-            bytes[i] = binaryString.charCodeAt(i);
-        }}
-        return bytes.buffer;
-    }}
+    // Create an array of audio elements for better performance
+    const NUM_AUDIO_ELEMENTS = 3;
+    let audioElements = [];
+    let currentAudioIndex = 0;
 
-    // Initialize Web Audio API
-    async function initAudio() {{
-        try {{
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const arrayBuffer = base64ToArrayBuffer("{audio_base64}");
-            audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-            console.log("Audio initialized successfully");
-        }} catch (error) {{
-            console.error("Error initializing audio:", error);
-        }}
-    }}
+    // Initialize audio elements
+    function initAudio() {
+        const template = document.getElementById('beatSound');
+        audioElements.push(template);
+        
+        // Create additional audio elements
+        for (let i = 1; i < NUM_AUDIO_ELEMENTS; i++) {
+            const audio = template.cloneNode(true);
+            audio.id = 'beatSound' + i;
+            template.parentNode.appendChild(audio);
+            audioElements.push(audio);
+        }
 
-    // Initialize audio on page load
+        // Add click handler to start audio
+        document.addEventListener('click', function() {
+            audioElements.forEach(audio => {
+                if (audio.paused) {
+                    audio.volume = 0;
+                    audio.play().then(() => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                        audio.volume = 1;
+                    }).catch(console.error);
+                }
+            });
+        });
+    }
+
+    // Initialize on page load
     initAudio();
 
     // Function to play the beat
-    async function playBeat() {{
-        if (!audioContext || !audioBuffer) {{
-            await initAudio();
-        }}
-        try {{
-            const source = audioContext.createBufferSource();
-            source.buffer = audioBuffer;
-            source.connect(audioContext.destination);
-            source.start(0);
-        }} catch (error) {{
-            console.error("Error playing beat:", error);
-        }}
-    }}
+    function playBeat() {
+        try {
+            const audio = audioElements[currentAudioIndex];
+            audio.currentTime = 0;
+            audio.volume = 1;
+            
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Audio play error:", error);
+                });
+            }
 
-    // Handle user interaction to initialize audio
-    document.addEventListener('click', function() {{
-        if (audioContext && audioContext.state === 'suspended') {{
-            audioContext.resume();
-        }}
-    }});
+            // Update index for next play
+            currentAudioIndex = (currentAudioIndex + 1) % NUM_AUDIO_ELEMENTS;
+        } catch (error) {
+            console.error("Error playing beat:", error);
+        }
+    }
 </script>
 """, unsafe_allow_html=True)
 
