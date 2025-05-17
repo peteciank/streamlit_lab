@@ -27,7 +27,7 @@ counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/databa
 
 # ----------- Research -------------------------
 st_context = st.Page("pages/research/Context.py", title="Context", icon=":material/biotech:")
-st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/sound:")
+st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/biotech:")
 
 
 # ---------- NAVIGATION ----------
