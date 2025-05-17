@@ -20,7 +20,7 @@ except Exception as e:
     st.error(f"Could not load audio file: {e}")
     audio_base64 = ""
 
-# Add custom CSS for the beat indicator and audio setup
+# Add custom CSS and JavaScript for beat indicator and audio
 st.markdown(f"""
 <style>
     .beat-container {{
@@ -45,14 +45,56 @@ st.markdown(f"""
 </style>
 
 <script>
-    // Create audio element with base64 encoded sound
-    const audio = new Audio("data:audio/mp3;base64,{audio_base64}");
+    let audioContext;
+    let audioBuffer;
     
-    function playBeat() {{
-        // Clone and play the audio for better performance
-        const clone = audio.cloneNode();
-        clone.play();
+    // Function to decode base64 to array buffer
+    function base64ToArrayBuffer(base64) {{
+        const binaryString = window.atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {{
+            bytes[i] = binaryString.charCodeAt(i);
+        }}
+        return bytes.buffer;
     }}
+
+    // Initialize Web Audio API
+    async function initAudio() {{
+        try {{
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const arrayBuffer = base64ToArrayBuffer("{audio_base64}");
+            audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            console.log("Audio initialized successfully");
+        }} catch (error) {{
+            console.error("Error initializing audio:", error);
+        }}
+    }}
+
+    // Initialize audio on page load
+    initAudio();
+
+    // Function to play the beat
+    async function playBeat() {{
+        if (!audioContext || !audioBuffer) {{
+            await initAudio();
+        }}
+        try {{
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+            source.start(0);
+        }} catch (error) {{
+            console.error("Error playing beat:", error);
+        }}
+    }}
+
+    // Handle user interaction to initialize audio
+    document.addEventListener('click', function() {{
+        if (audioContext && audioContext.state === 'suspended') {{
+            audioContext.resume();
+        }}
+    }});
 </script>
 """, unsafe_allow_html=True)
 
