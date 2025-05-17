@@ -34,7 +34,7 @@ pg = st.navigation(
     {
         "Home": [home],
         "Organizers": [col_size],
-        "DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
+        #"DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
         "Research": [st_context],
     }, position="sidebar"
 )
