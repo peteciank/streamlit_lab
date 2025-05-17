@@ -26,7 +26,7 @@ data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/database:")
 
 # ----------- Research -------------------------
-context = st.Page("pages/Context.py", title="Context", icon=":material/keyboard:")
+context = st.Page("pages/Context.py", title="Context", icon=":material/biotech:")
 
 
 # ---------- NAVIGATION ----------
