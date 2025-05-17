@@ -4,8 +4,10 @@ import time
 # Initialize session state for controlling the beat
 if 'is_playing' not in st.session_state:
     st.session_state.is_playing = False
+if 'beat_trigger' not in st.session_state:
+    st.session_state.beat_trigger = 0
 
-# Add custom CSS and JavaScript for beat indicator and audio synthesis
+# Add custom CSS for the beat indicator
 st.markdown("""
 <style>
     .beat-container {
@@ -27,73 +29,20 @@ st.markdown("""
     .beat-indicator.visible {
         opacity: 1;
     }
+    /* Hide the default audio player when not playing */
+    .stAudio {
+        display: none;
+    }
 </style>
-
-<script>
-    let audioContext;
-
-    // Initialize Web Audio API
-    function initAudio() {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        return audioContext;
-    }
-
-    // Function to create a drum sound
-    function createDrumSound() {
-        const ctx = initAudio();
-        
-        // Create oscillator for the drum body
-        const osc = ctx.createOscillator();
-        const gainNode = ctx.createGain();
-        
-        // Set up oscillator
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(150, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-        
-        // Set up gain
-        gainNode.gain.setValueAtTime(1, ctx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-        
-        // Connect nodes
-        osc.connect(gainNode);
-        gainNode.connect(ctx.destination);
-        
-        // Start and stop
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime + 0.15);
-    }
-
-    // Function to play the beat
-    function playBeat() {
-        try {
-            // Initialize audio context on first interaction
-            if (!audioContext || audioContext.state === 'suspended') {
-                audioContext = initAudio();
-                audioContext.resume();
-            }
-            createDrumSound();
-        } catch (error) {
-            console.error('Error playing beat:', error);
-        }
-    }
-
-    // Initialize audio on user interaction
-    document.addEventListener('click', function() {
-        initAudio();
-    });
-</script>
 """, unsafe_allow_html=True)
 
-# Create placeholder for beat indicator
+# Create placeholder for beat indicator and audio
 beat_placeholder = st.empty()
+audio_placeholder = st.empty()
 
-def play_beat():
-    """Play the beat using browser audio"""
-    # The sound will be played by the JavaScript code
-    pass
+# Load the audio file once
+with open("tom.mp3", "rb") as f:
+    audio_bytes = f.read()
 
 # Create two columns for the controls
 col1, col2 = st.columns(2)
@@ -128,15 +77,16 @@ if st.session_state.is_playing:
             # Calculate the interval based on current BPM
             interval = 60 / bpm
             
-            # Show beat indicator and trigger sound
+            # Show beat indicator and play sound
             beat_placeholder.markdown("""
                 <div class="beat-container">
                     <div class="beat-indicator visible">BEAT</div>
                 </div>
-                <script>
-                    playBeat();
-                </script>
             """, unsafe_allow_html=True)
+            
+            # Play the sound using st.audio
+            st.session_state.beat_trigger += 1
+            audio_placeholder.audio(audio_bytes, format='audio/mp3', start_time=0)
             
             # Wait a short time to show the beat
             time.sleep(0.1)
