@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit.components.v1 import html
 
-st.title("🔍 Phone-Mirror (Front Camera)")
+st.title("🔍 Phone-Mirror")
 
 html(
     """
