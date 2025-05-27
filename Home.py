@@ -28,6 +28,8 @@ counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/databa
 # ----------- Research -------------------------
 st_context = st.Page("pages/research/Context.py", title="Context", icon=":material/biotech:")
 st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/biotech:")
+st_camera = st.Page("pages/research/camera.py", title="Camera", icon=":material/camera:")
+
 
 
 # ---------- NAVIGATION ----------
@@ -36,7 +38,7 @@ pg = st.navigation(
         "Home": [home],
         "Organizers": [col_size],
         #"DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
-        "Research": [st_context, st_playsound],
+        "Research": [st_context, st_playsound, st_camera],
     }, position="sidebar"
 )
 
