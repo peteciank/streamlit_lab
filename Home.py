@@ -26,9 +26,9 @@ data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/database:")
 
 # ----------- Research -------------------------
-st_context = st.Page("pages/research/Context.py", title="Context", icon=":material/biotech:")
-st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/biotech:")
-st_camera = st.Page("pages/research/camera.py", title="Camera", icon=":material/biotech:")
+st_context = st.Page("pages/research/Context.py", title="Context", icon=":material/chat_add_on:")
+st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/volume_up:")
+st_camera = st.Page("pages/research/camera.py", title="Camera", icon=":material/video_camera_front:")
 
 
 
