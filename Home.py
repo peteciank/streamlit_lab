@@ -25,6 +25,9 @@ db_save = st.Page("pages/db/bi/src/pages/save_query.py", title="Save Query", ico
 data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/database:")
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/database:")
 
+# ----------- Links CRUD ----------------------
+link_manager = st.Page("pages/links_app.py", title="Link Manager", icon=":material/link:")
+
 # ----------- Research -------------------------
 st_context = st.Page("pages/research/Context.py", title="Context", icon=":material/chat_add_on:")
 st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/volume_up:")
@@ -38,6 +41,7 @@ pg = st.navigation(
     {
         "Home": [home],
         "Organizers": [col_size],
+        "Links": [link_manager],
         #"DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
         "Research": [st_context, st_playsound, st_camera, st_sensors],
     }, position="sidebar"
