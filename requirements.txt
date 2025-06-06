@@ -5,3 +5,4 @@ plotly
 utils
 streamlit-superapp
 fastapi
+supabase
