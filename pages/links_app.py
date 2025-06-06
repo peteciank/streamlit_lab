@@ -61,11 +61,11 @@ if phrasecode_filter:
             if col1.button("Update", key="update_btn"):
                 update_link(selected_id, title_u, notes_u, url_u)
                 st.success("Record updated")
-                st.experimental_rerun()
+                st.rerun()
             if col2.button("Delete", key="delete_btn"):
                 delete_link(selected_id)
                 st.success("Record deleted")
-                st.experimental_rerun()
+                st.rerun()
     else:
         st.info("No records found")
 
@@ -79,4 +79,4 @@ with st.form("create_form"):
     if submitted:
         create_link(new_code, new_title, new_notes, new_url)
         st.success("Record created")
-        st.experimental_rerun()
+        st.rerun()
