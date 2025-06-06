@@ -12,7 +12,7 @@ if not supabase_url or not supabase_key:
 
 supabase: Client = create_client(supabase_url, supabase_key)
 
-table_name = "links"
+table_name = "link_manager"
 
 st.title("Link Manager")
 
