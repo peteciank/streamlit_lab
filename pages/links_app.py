@@ -19,10 +19,15 @@ st.title("Link Manager")
 phrasecode_filter = st.text_input("Phrasecode")
 
 # Function definitions
-@st.cache_data(show_spinner=False)
 def fetch_links(code: str):
-    response = supabase.table(table_name).select("*").eq("phrasecode", code).execute()
-    return response.data
+    """Return all links for a phrasecode."""
+    response = (
+        supabase.table(table_name)
+        .select("*")
+        .eq("phrasecode", code)
+        .execute()
+    )
+    return response.data or []
 
 def create_link(code: str, title: str, notes: str, url: str):
     supabase.table(table_name).insert({
@@ -44,7 +49,19 @@ def delete_link(link_id: int):
 
 # Display records when phrasecode is provided
 if phrasecode_filter:
-    links = fetch_links(phrasecode_filter) or []
+    links = fetch_links(phrasecode_filter)
+
+    # If no records exist for this phrasecode, create a default one
+    if not links:
+        st.info("Phrasecode not found. Creating a test record.")
+        create_link(
+            phrasecode_filter,
+            "Sample Title",
+            "Sample notes",
+            "https://example.com",
+        )
+        links = fetch_links(phrasecode_filter)
+
     if links:
         df = pd.DataFrame(links)
         st.dataframe(df)
