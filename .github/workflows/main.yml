@@ -1,0 +1,316 @@
+name: Update latest_commits.py every 2 hours
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-commit-log:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full repo history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get last 10 days commits with files (limited to 100 entries)
+        id: log
+        run: |
+          since=$(date -u -d '10 days ago' +"%Y-%m-%dT%H:%M:%S")
+          
+          # Get commits from last 10 days, excluding automated commits
+          git log --since="$since" --pretty=format:"%H||%cd||%s" --date=format-local:"%Y-%m-%d %H:%M UTC" | \
+          grep -v "No Commits in the last 2 hours in this portfolio" | \
+          head -100 > temp_commits.txt
+          
+          # Clear previous detailed commits file
+          > detailed_commits.txt
+          
+          # Process each commit (limited to 100)
+          count=0
+          while IFS='||' read -r commit_hash commit_date commit_message && [ $count -lt 100 ]; do
+            if [ -n "$commit_hash" ]; then
+              echo "$commit_hash" >> detailed_commits.txt
+              echo "$commit_date||$commit_message" >> detailed_commits.txt
+              
+              # Get modified files for this commit (limit to prevent overflow)
+              git diff-tree --no-commit-id --name-only -r $commit_hash | head -20 >> detailed_commits.txt
+              echo "---" >> detailed_commits.txt
+              
+              count=$((count + 1))
+            fi
+          done < temp_commits.txt
+          
+          # Clean up temp file
+          rm -f temp_commits.txt
+          
+          echo "Processed $count commits"
+
+      - name: Create optimized 5_latest_commit.py
+        run: |
+          FILE=pages_sys/7_prod_tools/5_latest_commit.py
+          mkdir -p $(dirname $FILE)
+
+          cat << 'EOF' > $FILE
+          import streamlit as st
+          import pandas as pd
+          from datetime import datetime
+          import os
+
+
+          # Optimized CSS for better performance
+          st.markdown("""
+          <style>
+          .commit-card {
+              background-color: #f8f9fa;
+              border-radius: 8px;
+              padding: 12px;
+              margin-bottom: 10px;
+              border-left: 3px solid #0068c9;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          }
+          .commit-date {
+              color: #6c757d;
+              font-size: 12px;
+              font-family: monospace;
+          }
+          .commit-message {
+              font-weight: 600;
+              font-size: 14px;
+              margin: 6px 0;
+              color: #212529;
+          }
+          .file-tag {
+              background-color: #e3f2fd;
+              border-radius: 12px;
+              padding: 2px 6px;
+              margin-right: 4px;
+              font-size: 10px;
+              display: inline-block;
+              margin-bottom: 3px;
+              color: #1976d2;
+          }
+          .stats-container {
+              background-color: #f1f3f4;
+              padding: 15px;
+              border-radius: 8px;
+              margin-top: 20px;
+          }
+          </style>
+          """, unsafe_allow_html=True)
+
+          # Check if detailed_commits.txt exists
+          commits_file = "detailed_commits.txt"
+          if not os.path.exists(commits_file):
+              st.error("Commits data file not found. Please wait for the next update.")
+              st.stop()
+
+          # Get current date for the title
+          today = datetime.now().strftime("%Y-%m-%d")
+          st.title(f"📊 Latest Repository Activity")
+          st.markdown(f"*Last 10 days of commits (excluding automated updates)*")
+
+          @st.cache_data(ttl=7200)  # Cache for 2 hours to improve performance
+          def load_commits_data():
+              """Load and parse commits data with caching for performance"""
+              commits_data = []
+              
+              try:
+                  with open(commits_file, "r", encoding='utf-8') as f:
+                      content = f.read().strip()
+                      
+                  if not content:
+                      return []
+                      
+                  commit_blocks = content.split('---\n')
+                  
+                  for block in commit_blocks:
+                      lines = [line.strip() for line in block.strip().split('\n') if line.strip()]
+                      
+                      if len(lines) < 2:
+                          continue
+                          
+                      commit_hash = lines[0]
+                      
+                      # Parse date and message
+                      if '||' in lines[1]:
+                          date, message = lines[1].split('||', 1)
+                          date = date.strip()
+                          message = message.strip()
+                      else:
+                          continue
+                      
+                      # Get files (skip first 2 lines which are hash and date||message)
+                      files = [line for line in lines[2:] if line and not line.startswith('---')]
+                      
+                      # Limit files to prevent UI overflow
+                      files = files[:10]
+                      
+                      commits_data.append({
+                          'hash': commit_hash[:8],  # Short hash for display
+                          'date': date,
+                          'message': message,
+                          'files': files
+                      })
+              
+              except Exception as e:
+                  st.error(f"Error reading commits data: {str(e)}")
+                  return []
+              
+              return commits_data
+
+          def get_friendly_name(file_path):
+              """Convert file path to friendly display name"""
+              if not file_path:
+                  return "Unknown"
+              
+              # Extract filename
+              filename = file_path.split('/')[-1]
+              
+              # Remove extension and clean up
+              name_without_ext = filename.split('.')[0] if '.' in filename else filename
+              
+              # Replace underscores/hyphens with spaces and capitalize
+              friendly_name = ' '.join(word.capitalize() for word in name_without_ext.replace('-', '_').split('_'))
+              
+              return friendly_name[:30]  # Limit length
+
+          # Load commits data
+          commits_data = load_commits_data()
+
+          if not commits_data:
+              st.info("🔄 No recent commits found or data is being updated.")
+              st.stop()
+
+          # Display summary stats at the top
+          col1, col2, col3 = st.columns(3)
+          
+          with col1:
+              st.metric("Total Commits", len(commits_data))
+          
+          with col2:
+              # Count unique days with error handling
+              try:
+                  unique_dates = len(set(
+                      commit['date'].split()[0] 
+                      for commit in commits_data 
+                      if commit.get('date') and len(commit['date'].split()) > 0
+                  ))
+              except (AttributeError, IndexError):
+                  unique_dates = 0
+              st.metric("Active Days", unique_dates)
+          
+          with col3:
+              # Count total files changed
+              try:
+                  total_files = sum(len(commit.get('files', [])) for commit in commits_data)
+              except (TypeError, AttributeError):
+                  total_files = 0
+              st.metric("Files Changed", total_files)
+
+          st.markdown("---")
+
+          # Display commits with pagination for better performance
+          commits_per_page = 20
+          total_pages = (len(commits_data) - 1) // commits_per_page + 1
+
+          if total_pages > 1:
+              page = st.selectbox("Page", range(1, total_pages + 1), index=0)
+              start_idx = (page - 1) * commits_per_page
+              end_idx = start_idx + commits_per_page
+              displayed_commits = commits_data[start_idx:end_idx]
+          else:
+              displayed_commits = commits_data
+
+          # Display commits
+          for i, commit in enumerate(displayed_commits):
+              try:
+                  # Validate commit data
+                  commit_hash = commit.get('hash', 'unknown')
+                  commit_date = commit.get('date', 'Unknown date')
+                  commit_message = commit.get('message', 'No message')
+                  commit_files = commit.get('files', [])
+                  
+                  with st.container():
+                      st.markdown(f"""
+                      <div class="commit-card">
+                          <div class="commit-date">#{commit_hash} • {commit_date}</div>
+                          <div class="commit-message">{commit_message}</div>
+                          <div>
+                              {''.join([f'<span class="file-tag">{get_friendly_name(file)}</span>' for file in commit_files[:8]])}
+                              {f'<span class="file-tag">+{len(commit_files)-8} more</span>' if len(commit_files) > 8 else ''}
+                          </div>
+                      </div>
+                      """, unsafe_allow_html=True)
+              except Exception as e:
+                  st.warning(f"Error displaying commit {i+1}: {str(e)}")
+
+          # Compact statistics section
+          if len(commits_data) > 5:
+              with st.expander("📈 Detailed Statistics", expanded=False):
+                  col1, col2 = st.columns(2)
+                  
+                  with col1:
+                      # Commits by date (last 7 days only for performance)
+                      recent_commits = commits_data[:min(50, len(commits_data))]
+                      try:
+                          dates = [
+                              commit['date'].split()[0] 
+                              for commit in recent_commits 
+                              if commit.get('date') and len(commit['date'].split()) > 0
+                          ]
+                          if dates:
+                              date_counts = pd.Series(dates).value_counts().sort_index().tail(7)
+                              
+                              if not date_counts.empty:
+                                  st.markdown("**Recent Activity**")
+                                  st.bar_chart(date_counts)
+                          else:
+                              st.info("No valid dates found")
+                      except Exception as e:
+                          st.warning("Could not generate date statistics")
+                  
+                  with col2:
+                      # Most modified files
+                      try:
+                          all_files = []
+                          for commit in commits_data[:30]:  # Only check recent commits
+                              if commit.get('files'):
+                                  all_files.extend(commit['files'])
+                          
+                          if all_files:
+                              file_counts = pd.Series([get_friendly_name(f) for f in all_files]).value_counts().head(5)
+                              st.markdown("**Most Modified Files**")
+                              st.bar_chart(file_counts)
+                          else:
+                              st.info("No files data available")
+                      except Exception as e:
+                          st.warning("Could not generate file statistics")
+
+          # Footer with last update time
+          st.markdown("---")
+          st.markdown(f"""
+          <div style="text-align: center; color: #6c757d; font-size: 12px;">
+              Last updated: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")} | 
+              Showing {len(displayed_commits)} of {len(commits_data)} commits
+          </div>
+          """, unsafe_allow_html=True)
+          EOF
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add pages_sys/7_prod_tools/5_latest_commit.py detailed_commits.txt
+          
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Checking Updates: No Commits in the last 2 hours in this portfolio"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
