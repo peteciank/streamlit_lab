@@ -26,7 +26,7 @@ html(
 )
 
 def navigate_home():
-    st.switch_page(".\Home.py")  # Replace with your page file
+    st.switch_page("\Home.py")  # Replace with your page file
 
 if st.button("Go Home", on_click=navigate_home):
     pass
