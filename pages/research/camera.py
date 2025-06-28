@@ -25,8 +25,8 @@ html(
     height=500,
 )
 
-def navigate_to_page_2():
-    st.switch_page("pages/page2.py")  # Replace with your page file
+def navigate_home():
+    st.switch_page("Home.py")  # Replace with your page file
 
-if st.button("Go to Page 2", on_click=navigate_to_page_2):
+if st.button("Go Home", on_click=navigate_home):
     pass
