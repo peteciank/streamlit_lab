@@ -56,3 +56,10 @@ f"The user's local time is {now.astimezone(tz_obj_delta)}"
 
 if st.context.url.startswith("http://localhost"):
     st.write("You are running the app locally.")
+
+
+def navigate_home():
+    st.switch_page("pages/home/home_style.py")  # Replace with your page file
+
+if st.button("Go Home", on_click=navigate_home):
+    pass

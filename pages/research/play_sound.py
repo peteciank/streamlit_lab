@@ -105,3 +105,11 @@ if st.session_state.is_playing:
             
     except Exception as e:
         st.error(f"Error: {e}")
+
+
+
+def navigate_home():
+    st.switch_page("pages/home/home_style.py")  # Replace with your page file
+
+if st.button("Go Home", on_click=navigate_home):
+    pass
