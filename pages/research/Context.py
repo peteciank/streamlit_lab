@@ -58,8 +58,5 @@ if st.context.url.startswith("http://localhost"):
     st.write("You are running the app locally.")
 
 
-def navigate_home():
-    st.switch_page("home/home_style.py")  # Replace with your page file
-
-if st.button("Go Home", on_click=navigate_home):
-    pass
+pg = st.navigation([st.Page("pages/home/home_style.py")])
+pg.run()
