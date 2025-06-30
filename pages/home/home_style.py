@@ -10,7 +10,7 @@ with open('static/css/style_home.css') as f:
 st.markdown("""
 <div class="main-banner">
     <h2 class="hero-title">This is my Streamlit Lab, This is my kingdom come!</h2>
-    <p class="hero-subtitle">I will test all new features in this streamlit lab before moving them to other environments</p>
+    <p class="hero-subtitle">I will test all new features in this streamlit lab before moving them to other environments.</p>
     <button id="browse-button" class="action-button">Browse Other Pages for More!</button>
 </div>
 <script>
