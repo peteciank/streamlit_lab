@@ -1,5 +1,5 @@
 import streamlit as st
-from libs.myside import Mysidebar
+from libs.myside import MySidebar
 
 # Define CSS with increased specificity for hero-title
 
