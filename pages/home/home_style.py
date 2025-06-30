@@ -30,7 +30,7 @@ st.markdown("""
 # Sidebar configuration
 st.sidebar.title("Sidebar")
 st.sidebar.write("This is the sidebar content.")
-st.sidebar.MySidebar
+MySidebar()
 
 
 
