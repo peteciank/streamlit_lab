@@ -57,7 +57,7 @@ f"The user's local time is {now.astimezone(tz_obj_delta)}"
 if st.context.url.startswith("http://localhost"):
     st.write("You are running the app locally.")
 
-st.page_link("Home.py", label="Home", icon="🏠")
+st.page_link("home", label="Home", icon="🏠")
 
 
 pg = st.navigation([st.Page("pages/home/home_style.py")])
