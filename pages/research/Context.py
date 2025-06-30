@@ -59,7 +59,7 @@ if st.context.url.startswith("http://localhost"):
 
 
 def navigate_home():
-    st.switch_page("/pages/home/home_style.py")  # Replace with your page file
+    st.switch_page("home/home_style.py")  # Replace with your page file
 
 if st.button("Go Home", on_click=navigate_home):
     pass
