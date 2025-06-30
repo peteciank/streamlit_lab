@@ -60,5 +60,9 @@ if st.context.url.startswith("http://localhost"):
 st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
 
 
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
 pg = st.navigation([st.Page("pages/home/home_style.py")])
 pg.run()
