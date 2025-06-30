@@ -3,6 +3,13 @@ from streamlit.components.v1 import html
 
 st.title("📱 Phone Sensors Live Feedback")
 
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
+
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
 # We embed all our logic in one HTML blob:
 html("""
 <!DOCTYPE html>

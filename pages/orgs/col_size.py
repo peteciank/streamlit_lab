@@ -23,3 +23,14 @@ with col2:
 with col3:
     st.write("Third column (3/6 width)")
     st.text("This is largest.")
+
+
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
+
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
+
+

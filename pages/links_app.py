@@ -6,6 +6,14 @@ import pandas as pd
 supabase_url = st.secrets.get("supabase_url")
 supabase_key = st.secrets.get("supabase_key")
 
+
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
+
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
 if not supabase_url or not supabase_key:
     st.error("Supabase credentials not found in secrets!")
     st.stop()

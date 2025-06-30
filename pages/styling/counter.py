@@ -5,6 +5,13 @@ NAME = "Counter"
 TAG = "{A:}📚 Studies" # This page will appear in a group "📚 Studies" at the top of a index page
 ICON = "🔢"
 
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
+
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
 def main(page):
     counter = State("counter", default_value=0, key=page)
 

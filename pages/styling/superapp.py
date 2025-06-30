@@ -4,6 +4,14 @@ from streamlit_superapp.state import State
 
 ICON = "📊"
 
+
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
+
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
 def main():
     state = State("df", default_value=get_base_input())
 

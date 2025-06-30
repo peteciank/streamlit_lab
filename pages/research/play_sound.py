@@ -108,8 +108,8 @@ if st.session_state.is_playing:
 
 
 
-def navigate_home():
-    st.switch_page("pages/home/home_style.py")  # Replace with your page file
+st.page_link("pages/home/home_style.py", label="Home", icon=":material/home:")
 
-if st.button("Go Home", on_click=navigate_home):
-    pass
+
+st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
