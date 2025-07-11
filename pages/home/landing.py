@@ -42,51 +42,37 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    /* Logo and title styling */
-    .logo-container {
-        border-radius:50%;
-        width: 80px;
-        height: 80px;
+    /* COMPLETELY NEW Logo and title styling */
+    .header-container {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 20px;
+        gap: 25px;
         margin-bottom: 1rem;
-        flex-wrap: nowrap;
+        min-height: 100px;
     }
     
-    .logo {
-        font-size: 4rem;
-        animation: float 3s ease-in-out infinite;
-        flex-shrink: 0;
-    }
-    
-    .logo img {
+    .rowtok-logo {
         width: 80px;
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        animation: float 3s ease-in-out infinite;
+        animation: logoFloat 3s ease-in-out infinite;
         flex-shrink: 0;
     }
     
-    .app-title {
-        font-size: 3.5rem;
+    .rowtok-title {
+        font-size: 4rem;
         font-weight: bold;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         margin: 0;
+        display: inline-block;
+        flex-shrink: 0;
     }
     
-    @keyframes float {
+    @keyframes logoFloat {
         0%, 100% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
-    }
-    
-    .app-title {
-        font-size: 3.5rem;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        margin: 0;
     }
     
     .alpha-badge {
@@ -114,28 +100,6 @@ st.markdown("""
         border-radius: 15px;
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-    
-    /* Mobile video styling */
-    @media (max-width: 768px) {
-        .video-container {
-            max-width: 95%;
-            margin: 1rem auto;
-            height: 400px;
-        }
-    }
-    
-    /* Video iframe styling */
-    .video-container iframe {
-        width: 100% !important;
-        min-height: 350px !important;
-    }
-    
-    @media (max-width: 768px) {
-        .video-container iframe {
-            height: 400px !important;
-            min-height: 400px !important;
-        }
     }
     
     /* Content sections */
@@ -196,97 +160,6 @@ st.markdown("""
         color: white;
     }
     
-    /* Animated hand pointer */
-    .hand-pointer {
-        position: fixed;
-        top: 20px;
-        left: 70px;
-        font-size: 2.5rem;
-        z-index: 9999 !important;
-        animation: bounce 2s infinite;
-        cursor: pointer;
-        pointer-events: none;
-        color: #ff6b6b;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-    
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(-15deg); }
-        40% { transform: translateY(-10px) rotate(-10deg); }
-        60% { transform: translateY(-5px) rotate(-20deg); }
-    }
-    
-    /* Floating contact menu */
-    .floating-contact {
-        position: fixed !important;
-        bottom: 130px !important;
-        right: 20px !important;
-        z-index: 9999 !important;
-    }
-    
-    .contact-button {
-        background: #25d366 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 50% !important;
-        width: 60px !important;
-        height: 60px !important;
-        font-size: 1.5rem !important;
-        cursor: pointer !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-        transition: all 0.3s ease !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    
-    .contact-button:hover {
-        transform: scale(1.1) !important;
-        background: #20ba5a !important;
-    }
-    
-    .contact-popup {
-        position: absolute !important;
-        bottom: 70px !important;
-        right: 0 !important;
-        background: white !important;
-        border-radius: 15px !important;
-        padding: 1rem !important;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
-        width: 250px !important;
-        display: none !important;
-        z-index: 10000 !important;
-    }
-    
-    .contact-popup.show {
-        display: block !important;
-        animation: slideUp 0.3s ease !important;
-    }
-    
-    @keyframes slideUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    
-    .contact-item {
-        padding: 0.5rem 0 !important;
-        border-bottom: 1px solid #eee !important;
-        color: #333 !important;
-    }
-    
-    .contact-item:last-child {
-        border-bottom: none !important;
-    }
-    
-    .contact-item a {
-        color: #2a5298 !important;
-        text-decoration: none !important;
-    }
-    
-    .contact-item a:hover {
-        text-decoration: underline !important;
-    }
-    
     /* Features grid */
     .features-grid {
         display: grid;
@@ -316,23 +189,17 @@ st.markdown("""
     
     /* Responsive design */
     @media (max-width: 768px) {
-        .app-title {
-            font-size: 2.5rem;
+        .rowtok-title {
+            font-size: 2.8rem;
         }
         
-        .logo {
-            font-size: 3rem;
-        }
-        
-        .logo img {
+        .rowtok-logo {
             width: 60px;
             height: 60px;
         }
         
-        .logo-container {
-            gap: 15px;
-            flex-direction: row;
-            flex-wrap: nowrap;
+        .header-container {
+            gap: 20px;
         }
         
         .content-section {
@@ -343,24 +210,41 @@ st.markdown("""
         .features-grid {
             grid-template-columns: 1fr;
         }
-        
-        .hand-pointer {
-            left: 65px;
-            top: 15px;
-            font-size: 2rem;
-        }
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Animated hand pointer
-st.markdown("""
-<div class="hand-pointer" onclick="document.querySelector('[data-testid=\"collapsedControl\"]').click()">
+# COMPLETELY NEW Finger pointer approach
+finger_pointer_html = """
+<div style="position: fixed; top: 20px; left: 80px; z-index: 999999; font-size: 2.5rem; color: #ff4444; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); animation: fingerBounce 2s infinite; pointer-events: none;">
     👈
 </div>
-""", unsafe_allow_html=True)
 
-# Hero Section with Logo
+<style>
+@keyframes fingerBounce {
+    0%, 20%, 50%, 80%, 100% { 
+        transform: translateY(0px) rotate(-15deg); 
+    }
+    40% { 
+        transform: translateY(-8px) rotate(-10deg); 
+    }
+    60% { 
+        transform: translateY(-4px) rotate(-20deg); 
+    }
+}
+
+@media (max-width: 768px) {
+    div[style*="left: 80px"] {
+        left: 70px !important;
+        font-size: 2rem !important;
+    }
+}
+</style>
+"""
+
+components.html(finger_pointer_html, height=0)
+
+# COMPLETELY NEW Hero Section
 logo_path = get_logo_path()
 if logo_path and os.path.exists(logo_path):
     # Read and encode the logo
@@ -368,39 +252,41 @@ if logo_path and os.path.exists(logo_path):
     with open(logo_path, "rb") as img_file:
         img_data = base64.b64encode(img_file.read()).decode()
     
-    st.markdown(f"""
+    hero_html = f"""
     <div class="hero-section">
-        <div class="logo-container">
-            <img src="data:image/png;base64,{img_data}" class="logo" alt="RowTok Logo">
-            <h1 class="app-title">RowTok</h1>
+        <div class="header-container">
+            <img src="data:image/png;base64,{img_data}" class="rowtok-logo" alt="RowTok Logo">
+            <h1 class="rowtok-title">RowTok</h1>
         </div>
         <div class="alpha-badge">ALPHA VERSION</div>
         <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
             The Future of Water Sports Training is Here
         </p>
     </div>
-    """, unsafe_allow_html=True)
+    """
 else:
     # Fallback to emoji if logo not found
-    st.markdown("""
+    hero_html = """
     <div class="hero-section">
-        <div class="logo-container">
-            <div class="logo">🚣‍♂️</div>
-            <h1 class="app-title">RowTok</h1>
+        <div class="header-container">
+            <div style="font-size: 4rem; animation: logoFloat 3s ease-in-out infinite;">🚣‍♂️</div>
+            <h1 class="rowtok-title">RowTok</h1>
         </div>
         <div class="alpha-badge">ALPHA VERSION</div>
         <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
             The Future of Water Sports Training is Here
         </p>
     </div>
-    """, unsafe_allow_html=True)
+    """
+
+st.markdown(hero_html, unsafe_allow_html=True)
 
 # Video Section
 st.markdown("""
 <div class="video-container">
 """, unsafe_allow_html=True)
 
-# Embed YouTube video with better sizing
+# Embed YouTube video
 video_url = "https://youtu.be/GYgs9DkWTjo"
 st.video(video_url)
 
@@ -483,69 +369,120 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Floating contact menu
-contact_script = """
-<div class="floating-contact">
-    <button class="contact-button" onclick="toggleContactPopup()" id="contactButton">💬</button>
-    <div class="contact-popup" id="contactPopup">
-        <div class="contact-item">
-            <strong>📧 Email:</strong><br>
-            <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
+# COMPLETELY NEW Contact bubble approach using native Streamlit + HTML
+contact_bubble_html = """
+<div id="contactBubble" style="
+    position: fixed; 
+    bottom: 140px; 
+    right: 25px; 
+    z-index: 999999;
+    font-family: Arial, sans-serif;
+">
+    <button id="contactBtn" onclick="toggleContact()" style="
+        width: 65px; 
+        height: 65px; 
+        border-radius: 50%; 
+        background: #25D366; 
+        border: none; 
+        font-size: 24px; 
+        cursor: pointer; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    ">💬</button>
+    
+    <div id="contactMenu" style="
+        position: absolute; 
+        bottom: 75px; 
+        right: 0; 
+        width: 260px; 
+        background: white; 
+        border-radius: 15px; 
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+        display: none; 
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+    ">
+        <div style="padding: 15px; border-bottom: 1px solid #f0f0f0; font-weight: bold; color: #333; background: #f8f9fa;">
+            📞 Contact RowTok
         </div>
-        <div class="contact-item">
-            <strong>💼 LinkedIn:</strong><br>
-            <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
+        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
+            <strong style="color: #2a5298;">📧 Email:</strong><br>
+            <a href="mailto:contact@rowtok.app" style="color: #0066cc; text-decoration: none;">contact@rowtok.app</a>
         </div>
-        <div class="contact-item">
-            <strong>🐦 Twitter:</strong><br>
-            <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
+        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
+            <strong style="color: #2a5298;">💼 LinkedIn:</strong><br>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color: #0066cc; text-decoration: none;">Connect with us</a>
         </div>
-        <div class="contact-item">
-            <strong>📱 WhatsApp:</strong><br>
-            <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
+        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
+            <strong style="color: #2a5298;">🐦 Twitter:</strong><br>
+            <a href="https://twitter.com/rowtok" target="_blank" style="color: #0066cc; text-decoration: none;">@RowTok</a>
+        </div>
+        <div style="padding: 12px 15px;">
+            <strong style="color: #2a5298;">📱 WhatsApp:</strong><br>
+            <a href="https://wa.me/1234567890" target="_blank" style="color: #0066cc; text-decoration: none;">Chat with us</a>
         </div>
     </div>
 </div>
 
 <script>
-function toggleContactPopup() {
-    console.log('Contact button clicked');
-    var popup = document.getElementById('contactPopup');
-    if (popup) {
-        popup.classList.toggle('show');
+let contactOpen = false;
+
+function toggleContact() {
+    const menu = document.getElementById('contactMenu');
+    const btn = document.getElementById('contactBtn');
+    
+    contactOpen = !contactOpen;
+    
+    if (contactOpen) {
+        menu.style.display = 'block';
+        menu.style.animation = 'slideIn 0.3s ease-out';
+        btn.style.transform = 'scale(1.1)';
+        btn.style.background = '#20ba5a';
+    } else {
+        menu.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(() => {
+            menu.style.display = 'none';
+        }, 300);
+        btn.style.transform = 'scale(1)';
+        btn.style.background = '#25D366';
     }
 }
 
-// Ensure the script runs after DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Close popup when clicking outside
-    document.addEventListener('click', function(event) {
-        var popup = document.getElementById('contactPopup');
-        var button = document.getElementById('contactButton');
-        
-        if (popup && button && !popup.contains(event.target) && !button.contains(event.target)) {
-            popup.classList.remove('show');
-        }
-    });
+// Close when clicking outside
+document.addEventListener('click', function(e) {
+    const bubble = document.getElementById('contactBubble');
+    if (bubble && !bubble.contains(e.target) && contactOpen) {
+        toggleContact();
+    }
 });
 
-// Alternative method if DOMContentLoaded doesn't work
-setTimeout(function() {
-    var button = document.getElementById('contactButton');
-    if (button) {
-        button.addEventListener('click', function() {
-            console.log('Button clicked via event listener');
-            var popup = document.getElementById('contactPopup');
-            if (popup) {
-                popup.classList.toggle('show');
-            }
-        });
+// Add animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.8); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
-}, 1000);
+    @keyframes slideOut {
+        from { opacity: 1; transform: translateY(0) scale(1); }
+        to { opacity: 0; transform: translateY(20px) scale(0.8); }
+    }
+    
+    #contactBtn:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+    }
+`;
+document.head.appendChild(style);
 </script>
 """
 
-components.html(contact_script, height=0)
+components.html(contact_bubble_html, height=0)
 
 # Footer
 st.markdown("""
