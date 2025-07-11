@@ -187,11 +187,11 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* FINGER POINTER - Direct CSS approach */
+    /* FINGER POINTER - Adjusted position to not cover sidebar arrow */
     .finger-pointer {
         position: fixed !important;
-        top: 20px !important;
-        left: 80px !important;
+        top: 25px !important;
+        left: 55px !important;
         z-index: 999999 !important;
         font-size: 2.5rem !important;
         color: #ff4444 !important;
@@ -323,8 +323,9 @@ st.markdown("""
         }
         
         .finger-pointer {
-            left: 70px !important;
+            left: 50px !important;
             font-size: 2rem !important;
+            top: 20px !important;
         }
         
         .contact-bubble {
@@ -353,7 +354,7 @@ if logo_path and os.path.exists(logo_path):
     
     <!-- Contact Bubble -->
     <div class="contact-bubble">
-        <button class="contact-button" onclick="toggleContactMenu()">💬</button>
+        <button class="contact-button" id="contactBtn">💬</button>
         <div class="contact-menu" id="contactMenu">
             <div class="contact-header">📞 Contact RowTok</div>
             <div class="contact-item">
@@ -386,31 +387,6 @@ if logo_path and os.path.exists(logo_path):
             The Future of Water Sports Training is Here
         </p>
     </div>
-    
-    <script>
-    let contactMenuOpen = false;
-    
-    function toggleContactMenu() {{
-        const menu = document.getElementById('contactMenu');
-        contactMenuOpen = !contactMenuOpen;
-        
-        if (contactMenuOpen) {{
-            menu.classList.add('show');
-        }} else {{
-            menu.classList.remove('show');
-        }}
-    }}
-    
-    // Close when clicking outside
-    document.addEventListener('click', function(e) {{
-        const bubble = document.querySelector('.contact-bubble');
-        const menu = document.getElementById('contactMenu');
-        if (bubble && !bubble.contains(e.target) && contactMenuOpen) {{
-            menu.classList.remove('show');
-            contactMenuOpen = false;
-        }}
-    }});
-    </script>
     """
 else:
     # Fallback to emoji if logo not found
@@ -420,7 +396,7 @@ else:
     
     <!-- Contact Bubble -->
     <div class="contact-bubble">
-        <button class="contact-button" onclick="toggleContactMenu()">💬</button>
+        <button class="contact-button" id="contactBtn">💬</button>
         <div class="contact-menu" id="contactMenu">
             <div class="contact-header">📞 Contact RowTok</div>
             <div class="contact-item">
@@ -453,34 +429,76 @@ else:
             The Future of Water Sports Training is Here
         </p>
     </div>
-    
-    <script>
-    let contactMenuOpen = false;
-    
-    function toggleContactMenu() {
-        const menu = document.getElementById('contactMenu');
-        contactMenuOpen = !contactMenuOpen;
-        
-        if (contactMenuOpen) {
-            menu.classList.add('show');
-        } else {
-            menu.classList.remove('show');
-        }
-    }
-    
-    // Close when clicking outside
-    document.addEventListener('click', function(e) {
-        const bubble = document.querySelector('.contact-bubble');
-        const menu = document.getElementById('contactMenu');
-        if (bubble && !bubble.contains(e.target) && contactMenuOpen) {
-            menu.classList.remove('show');
-            contactMenuOpen = false;
-        }
-    });
-    </script>
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
+
+# Add JavaScript functionality for contact bubble
+contact_js = """
+<script>
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    setupContactBubble();
+});
+
+// Also run after a short delay to ensure Streamlit has rendered
+setTimeout(function() {
+    setupContactBubble();
+}, 1000);
+
+function setupContactBubble() {
+    const contactBtn = document.getElementById('contactBtn');
+    const contactMenu = document.getElementById('contactMenu');
+    
+    if (!contactBtn || !contactMenu) {
+        console.log('Contact elements not found, retrying...');
+        return;
+    }
+    
+    console.log('Setting up contact bubble...');
+    
+    let isOpen = false;
+    
+    // Remove any existing event listeners
+    contactBtn.replaceWith(contactBtn.cloneNode(true));
+    const newContactBtn = document.getElementById('contactBtn');
+    
+    // Add click event listener
+    newContactBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Contact button clicked!');
+        
+        isOpen = !isOpen;
+        
+        if (isOpen) {
+            contactMenu.classList.add('show');
+            newContactBtn.style.background = '#20ba5a';
+            newContactBtn.style.transform = 'scale(1.1)';
+        } else {
+            contactMenu.classList.remove('show');
+            newContactBtn.style.background = '#25D366';
+            newContactBtn.style.transform = 'scale(1)';
+        }
+    });
+    
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!document.querySelector('.contact-bubble').contains(e.target) && isOpen) {
+            contactMenu.classList.remove('show');
+            newContactBtn.style.background = '#25D366';
+            newContactBtn.style.transform = 'scale(1)';
+            isOpen = false;
+        }
+    });
+    
+    console.log('Contact bubble setup complete!');
+}
+</script>
+"""
+
+components.html(contact_js, height=0)
 
 # Video Section
 st.markdown("""
