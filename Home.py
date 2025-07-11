@@ -4,7 +4,7 @@ st.cache_data.clear()
 
 # ---------- Home ------------------------
 home = st.Page("pages/home/home_style.py", title="Streamlit Lab", icon=":material/home:")
-landing = st.Page("pages/home/landing.py", title="Landing", icon=":material/home:")
+#landing = st.Page("pages/home/landing.py", title="Landing", icon=":material/home:")
 
 
 
@@ -41,7 +41,7 @@ st_sensors = st.Page("pages/research/sensors.py", title="Sensors", icon=":materi
 pg = st.navigation(
     {
         "Home": [home],
-        "Organizers": [col_size, landing],
+        "Organizers": [col_size],
         "Links": [link_manager],
         #"DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
         "Research": [st_context, st_playsound, st_camera, st_sensors],
