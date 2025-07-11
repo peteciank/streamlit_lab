@@ -789,7 +789,7 @@ else:
     """
 
 # Render the interactive elements using components.html()
-components.html(interactive_html, height=0)
+components.html(interactive_html, height=100)
 
 # Hero Section with just the visual content
 logo_path = get_logo_path()
