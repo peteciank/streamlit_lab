@@ -23,7 +23,6 @@ st.markdown("""
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
     
     /* Main container styling */
     .main-container {
