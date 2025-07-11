@@ -54,7 +54,7 @@ st.markdown("""
     .rowtok-logo {
         width: 80px;
         height: 80px;
-        border-radius: 50%;
+        border-radius: 20%;
         object-fit: cover;
         animation: logoFloat 3s ease-in-out infinite;
         flex-shrink: 0;
