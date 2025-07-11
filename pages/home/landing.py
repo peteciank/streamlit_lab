@@ -11,7 +11,6 @@ def get_logo_path():
     parent_dir = current_dir.parent
     # Path to logo
     logo_path = parent_dir / 'static' / 'images' / 'logo.png'
-    st.write(logo_path)
     
     if logo_path.exists():
         return str(logo_path)
@@ -45,19 +44,18 @@ st.markdown("""
     
     /* Logo and title styling */
     .logo-container {
-        border-radius: 20;
-        height: 256px;
-        width: 256px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 20px;
         margin-bottom: 1rem;
+        flex-wrap: nowrap;
     }
     
     .logo {
         font-size: 4rem;
         animation: float 3s ease-in-out infinite;
+        flex-shrink: 0;
     }
     
     .logo img {
@@ -66,6 +64,14 @@ st.markdown("""
         border-radius: 50%;
         object-fit: cover;
         animation: float 3s ease-in-out infinite;
+        flex-shrink: 0;
+    }
+    
+    .app-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        margin: 0;
     }
     
     @keyframes float {
@@ -99,7 +105,8 @@ st.markdown("""
     
     /* Video container */
     .video-container {
-        max-width: 600px;
+        max-width: 800px;
+        width: 100%;
         margin: 2rem auto;
         border-radius: 15px;
         overflow: hidden;
@@ -109,13 +116,22 @@ st.markdown("""
     /* Mobile video styling */
     @media (max-width: 768px) {
         .video-container {
-            max-width: 90%;
+            max-width: 95%;
             margin: 1rem auto;
+            height: 400px;
         }
-        
+    }
+    
+    /* Video iframe styling */
+    .video-container iframe {
+        width: 100% !important;
+        min-height: 350px !important;
+    }
+    
+    @media (max-width: 768px) {
         .video-container iframe {
             height: 400px !important;
-            width: 100% !important;
+            min-height: 400px !important;
         }
     }
     
@@ -180,61 +196,68 @@ st.markdown("""
     /* Animated hand pointer */
     .hand-pointer {
         position: fixed;
-        top: 15px;
-        left: 60px;
-        font-size: 2rem;
-        z-index: 999;
+        top: 20px;
+        left: 70px;
+        font-size: 2.5rem;
+        z-index: 9999 !important;
         animation: bounce 2s infinite;
         cursor: pointer;
+        pointer-events: none;
+        color: #ff6b6b;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
     
     @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        60% { transform: translateY(-5px); }
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(-15deg); }
+        40% { transform: translateY(-10px) rotate(-10deg); }
+        60% { transform: translateY(-5px) rotate(-20deg); }
     }
     
     /* Floating contact menu */
     .floating-contact {
-        position: fixed;
-        bottom: 130px;
-        right: 20px;
-        z-index: 1000;
+        position: fixed !important;
+        bottom: 130px !important;
+        right: 20px !important;
+        z-index: 9999 !important;
     }
     
     .contact-button {
-        background: #25d366;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
+        background: #25d366 !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 50% !important;
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 1.5rem !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
     
     .contact-button:hover {
-        transform: scale(1.1);
-        background: #20ba5a;
+        transform: scale(1.1) !important;
+        background: #20ba5a !important;
     }
     
     .contact-popup {
-        position: absolute;
-        bottom: 70px;
-        right: 0;
-        background: white;
-        border-radius: 15px;
-        padding: 1rem;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        width: 250px;
-        display: none;
+        position: absolute !important;
+        bottom: 70px !important;
+        right: 0 !important;
+        background: white !important;
+        border-radius: 15px !important;
+        padding: 1rem !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2) !important;
+        width: 250px !important;
+        display: none !important;
+        z-index: 10000 !important;
     }
     
     .contact-popup.show {
-        display: block;
-        animation: slideUp 0.3s ease;
+        display: block !important;
+        animation: slideUp 0.3s ease !important;
     }
     
     @keyframes slideUp {
@@ -243,12 +266,22 @@ st.markdown("""
     }
     
     .contact-item {
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #eee;
+        padding: 0.5rem 0 !important;
+        border-bottom: 1px solid #eee !important;
+        color: #333 !important;
     }
     
     .contact-item:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
+    }
+    
+    .contact-item a {
+        color: #2a5298 !important;
+        text-decoration: none !important;
+    }
+    
+    .contact-item a:hover {
+        text-decoration: underline !important;
     }
     
     /* Features grid */
@@ -288,6 +321,17 @@ st.markdown("""
             font-size: 3rem;
         }
         
+        .logo img {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .logo-container {
+            gap: 15px;
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+        
         .content-section {
             margin: 1rem;
             padding: 1.5rem;
@@ -298,8 +342,9 @@ st.markdown("""
         }
         
         .hand-pointer {
-            left: 55px;
-            top: 12px;
+            left: 65px;
+            top: 15px;
+            font-size: 2rem;
         }
     }
 </style>
@@ -352,11 +397,9 @@ st.markdown("""
 <div class="video-container">
 """, unsafe_allow_html=True)
 
-# Embed YouTube video with better mobile formatting
+# Embed YouTube video with better sizing
 video_url = "https://youtu.be/GYgs9DkWTjo"
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    st.video(video_url)
+st.video(video_url)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
@@ -440,7 +483,7 @@ st.markdown("""
 # Floating contact menu
 contact_script = """
 <div class="floating-contact">
-    <button class="contact-button" onclick="toggleContactPopup()">💬</button>
+    <button class="contact-button" onclick="toggleContactPopup()" id="contactButton">💬</button>
     <div class="contact-popup" id="contactPopup">
         <div class="contact-item">
             <strong>📧 Email:</strong><br>
@@ -463,19 +506,39 @@ contact_script = """
 
 <script>
 function toggleContactPopup() {
+    console.log('Contact button clicked');
     var popup = document.getElementById('contactPopup');
-    popup.classList.toggle('show');
+    if (popup) {
+        popup.classList.toggle('show');
+    }
 }
 
-// Close popup when clicking outside
-document.addEventListener('click', function(event) {
-    var popup = document.getElementById('contactPopup');
-    var button = document.querySelector('.contact-button');
-    
-    if (!popup.contains(event.target) && !button.contains(event.target)) {
-        popup.classList.remove('show');
-    }
+// Ensure the script runs after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Close popup when clicking outside
+    document.addEventListener('click', function(event) {
+        var popup = document.getElementById('contactPopup');
+        var button = document.getElementById('contactButton');
+        
+        if (popup && button && !popup.contains(event.target) && !button.contains(event.target)) {
+            popup.classList.remove('show');
+        }
+    });
 });
+
+// Alternative method if DOMContentLoaded doesn't work
+setTimeout(function() {
+    var button = document.getElementById('contactButton');
+    if (button) {
+        button.addEventListener('click', function() {
+            console.log('Button clicked via event listener');
+            var popup = document.getElementById('contactPopup');
+            if (popup) {
+                popup.classList.toggle('show');
+            }
+        });
+    }
+}, 1000);
 </script>
 """
 
