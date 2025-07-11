@@ -885,7 +885,7 @@ st.markdown("""
         🚣‍♂️ <strong>RowTok</strong> - Revolutionizing Water Sports Training
     </p>
     <p style="margin: 0.5rem 0 0 0; opacity: 0.8;">
-        Alpha Version • Built with ❤️ for the Rowing Community
+        Alpha Version • Built with ❤️ for the Rowing Community.
     </p>
 </div>
 """, unsafe_allow_html=True)
