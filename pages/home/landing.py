@@ -187,6 +187,117 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
+    /* FINGER POINTER - Direct CSS approach */
+    .finger-pointer {
+        position: fixed !important;
+        top: 20px !important;
+        left: 80px !important;
+        z-index: 999999 !important;
+        font-size: 2.5rem !important;
+        color: #ff4444 !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+        animation: fingerBounce 2s infinite !important;
+        pointer-events: none !important;
+        user-select: none !important;
+    }
+    
+    @keyframes fingerBounce {
+        0%, 20%, 50%, 80%, 100% { 
+            transform: translateY(0px) rotate(-15deg); 
+        }
+        40% { 
+            transform: translateY(-8px) rotate(-10deg); 
+        }
+        60% { 
+            transform: translateY(-4px) rotate(-20deg); 
+        }
+    }
+    
+    /* CONTACT BUBBLE - Direct CSS approach */
+    .contact-bubble {
+        position: fixed !important;
+        bottom: 140px !important;
+        right: 25px !important;
+        z-index: 999999 !important;
+        font-family: Arial, sans-serif !important;
+    }
+    
+    .contact-button {
+        width: 65px !important;
+        height: 65px !important;
+        border-radius: 50% !important;
+        background: #25D366 !important;
+        border: none !important;
+        font-size: 24px !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: white !important;
+    }
+    
+    .contact-button:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+        background: #20ba5a !important;
+    }
+    
+    .contact-menu {
+        position: absolute !important;
+        bottom: 75px !important;
+        right: 0 !important;
+        width: 260px !important;
+        background: white !important;
+        border-radius: 15px !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        display: none !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 1px solid #e0e0e0 !important;
+    }
+    
+    .contact-menu.show {
+        display: block !important;
+        animation: contactSlideIn 0.3s ease-out !important;
+    }
+    
+    @keyframes contactSlideIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.8); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    
+    .contact-header {
+        padding: 15px !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        font-weight: bold !important;
+        color: #333 !important;
+        background: #f8f9fa !important;
+    }
+    
+    .contact-item {
+        padding: 12px 15px !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+    }
+    
+    .contact-item:last-child {
+        border-bottom: none !important;
+    }
+    
+    .contact-item strong {
+        color: #2a5298 !important;
+    }
+    
+    .contact-item a {
+        color: #0066cc !important;
+        text-decoration: none !important;
+    }
+    
+    .contact-item a:hover {
+        text-decoration: underline !important;
+    }
+    
     /* Responsive design */
     @media (max-width: 768px) {
         .rowtok-title {
@@ -210,41 +321,25 @@ st.markdown("""
         .features-grid {
             grid-template-columns: 1fr;
         }
+        
+        .finger-pointer {
+            left: 70px !important;
+            font-size: 2rem !important;
+        }
+        
+        .contact-bubble {
+            bottom: 120px !important;
+            right: 15px !important;
+        }
+        
+        .contact-menu {
+            width: 240px !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
 
-# COMPLETELY NEW Finger pointer approach
-finger_pointer_html = """
-<div style="position: fixed; top: 20px; left: 80px; z-index: 999999; font-size: 2.5rem; color: #ff4444; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); animation: fingerBounce 2s infinite; pointer-events: none;">
-    👈
-</div>
-
-<style>
-@keyframes fingerBounce {
-    0%, 20%, 50%, 80%, 100% { 
-        transform: translateY(0px) rotate(-15deg); 
-    }
-    40% { 
-        transform: translateY(-8px) rotate(-10deg); 
-    }
-    60% { 
-        transform: translateY(-4px) rotate(-20deg); 
-    }
-}
-
-@media (max-width: 768px) {
-    div[style*="left: 80px"] {
-        left: 70px !important;
-        font-size: 2rem !important;
-    }
-}
-</style>
-"""
-
-components.html(finger_pointer_html, height=0)
-
-# COMPLETELY NEW Hero Section
+# COMPLETELY NEW Hero Section with embedded finger pointer and contact bubble
 logo_path = get_logo_path()
 if logo_path and os.path.exists(logo_path):
     # Read and encode the logo
@@ -253,6 +348,34 @@ if logo_path and os.path.exists(logo_path):
         img_data = base64.b64encode(img_file.read()).decode()
     
     hero_html = f"""
+    <!-- Finger Pointer -->
+    <div class="finger-pointer">👈</div>
+    
+    <!-- Contact Bubble -->
+    <div class="contact-bubble">
+        <button class="contact-button" onclick="toggleContactMenu()">💬</button>
+        <div class="contact-menu" id="contactMenu">
+            <div class="contact-header">📞 Contact RowTok</div>
+            <div class="contact-item">
+                <strong>📧 Email:</strong><br>
+                <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
+            </div>
+            <div class="contact-item">
+                <strong>💼 LinkedIn:</strong><br>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
+            </div>
+            <div class="contact-item">
+                <strong>🐦 Twitter:</strong><br>
+                <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
+            </div>
+            <div class="contact-item">
+                <strong>📱 WhatsApp:</strong><br>
+                <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
     <div class="hero-section">
         <div class="header-container">
             <img src="data:image/png;base64,{img_data}" class="rowtok-logo" alt="RowTok Logo">
@@ -263,10 +386,63 @@ if logo_path and os.path.exists(logo_path):
             The Future of Water Sports Training is Here
         </p>
     </div>
+    
+    <script>
+    let contactMenuOpen = false;
+    
+    function toggleContactMenu() {{
+        const menu = document.getElementById('contactMenu');
+        contactMenuOpen = !contactMenuOpen;
+        
+        if (contactMenuOpen) {{
+            menu.classList.add('show');
+        }} else {{
+            menu.classList.remove('show');
+        }}
+    }}
+    
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {{
+        const bubble = document.querySelector('.contact-bubble');
+        const menu = document.getElementById('contactMenu');
+        if (bubble && !bubble.contains(e.target) && contactMenuOpen) {{
+            menu.classList.remove('show');
+            contactMenuOpen = false;
+        }}
+    }});
+    </script>
     """
 else:
     # Fallback to emoji if logo not found
     hero_html = """
+    <!-- Finger Pointer -->
+    <div class="finger-pointer">👈</div>
+    
+    <!-- Contact Bubble -->
+    <div class="contact-bubble">
+        <button class="contact-button" onclick="toggleContactMenu()">💬</button>
+        <div class="contact-menu" id="contactMenu">
+            <div class="contact-header">📞 Contact RowTok</div>
+            <div class="contact-item">
+                <strong>📧 Email:</strong><br>
+                <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
+            </div>
+            <div class="contact-item">
+                <strong>💼 LinkedIn:</strong><br>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
+            </div>
+            <div class="contact-item">
+                <strong>🐦 Twitter:</strong><br>
+                <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
+            </div>
+            <div class="contact-item">
+                <strong>📱 WhatsApp:</strong><br>
+                <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
     <div class="hero-section">
         <div class="header-container">
             <div style="font-size: 4rem; animation: logoFloat 3s ease-in-out infinite;">🚣‍♂️</div>
@@ -277,6 +453,31 @@ else:
             The Future of Water Sports Training is Here
         </p>
     </div>
+    
+    <script>
+    let contactMenuOpen = false;
+    
+    function toggleContactMenu() {
+        const menu = document.getElementById('contactMenu');
+        contactMenuOpen = !contactMenuOpen;
+        
+        if (contactMenuOpen) {
+            menu.classList.add('show');
+        } else {
+            menu.classList.remove('show');
+        }
+    }
+    
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+        const bubble = document.querySelector('.contact-bubble');
+        const menu = document.getElementById('contactMenu');
+        if (bubble && !bubble.contains(e.target) && contactMenuOpen) {
+            menu.classList.remove('show');
+            contactMenuOpen = false;
+        }
+    });
+    </script>
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
@@ -369,121 +570,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# COMPLETELY NEW Contact bubble approach using native Streamlit + HTML
-contact_bubble_html = """
-<div id="contactBubble" style="
-    position: fixed; 
-    bottom: 140px; 
-    right: 25px; 
-    z-index: 999999;
-    font-family: Arial, sans-serif;
-">
-    <button id="contactBtn" onclick="toggleContact()" style="
-        width: 65px; 
-        height: 65px; 
-        border-radius: 50%; 
-        background: #25D366; 
-        border: none; 
-        font-size: 24px; 
-        cursor: pointer; 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-    ">💬</button>
-    
-    <div id="contactMenu" style="
-        position: absolute; 
-        bottom: 75px; 
-        right: 0; 
-        width: 260px; 
-        background: white; 
-        border-radius: 15px; 
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
-        display: none; 
-        padding: 0;
-        overflow: hidden;
-        border: 1px solid #e0e0e0;
-    ">
-        <div style="padding: 15px; border-bottom: 1px solid #f0f0f0; font-weight: bold; color: #333; background: #f8f9fa;">
-            📞 Contact RowTok
-        </div>
-        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
-            <strong style="color: #2a5298;">📧 Email:</strong><br>
-            <a href="mailto:contact@rowtok.app" style="color: #0066cc; text-decoration: none;">contact@rowtok.app</a>
-        </div>
-        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
-            <strong style="color: #2a5298;">💼 LinkedIn:</strong><br>
-            <a href="https://linkedin.com/in/yourprofile" target="_blank" style="color: #0066cc; text-decoration: none;">Connect with us</a>
-        </div>
-        <div style="padding: 12px 15px; border-bottom: 1px solid #f0f0f0;">
-            <strong style="color: #2a5298;">🐦 Twitter:</strong><br>
-            <a href="https://twitter.com/rowtok" target="_blank" style="color: #0066cc; text-decoration: none;">@RowTok</a>
-        </div>
-        <div style="padding: 12px 15px;">
-            <strong style="color: #2a5298;">📱 WhatsApp:</strong><br>
-            <a href="https://wa.me/1234567890" target="_blank" style="color: #0066cc; text-decoration: none;">Chat with us</a>
-        </div>
-    </div>
-</div>
-
-<script>
-let contactOpen = false;
-
-function toggleContact() {
-    const menu = document.getElementById('contactMenu');
-    const btn = document.getElementById('contactBtn');
-    
-    contactOpen = !contactOpen;
-    
-    if (contactOpen) {
-        menu.style.display = 'block';
-        menu.style.animation = 'slideIn 0.3s ease-out';
-        btn.style.transform = 'scale(1.1)';
-        btn.style.background = '#20ba5a';
-    } else {
-        menu.style.animation = 'slideOut 0.3s ease-in';
-        setTimeout(() => {
-            menu.style.display = 'none';
-        }, 300);
-        btn.style.transform = 'scale(1)';
-        btn.style.background = '#25D366';
-    }
-}
-
-// Close when clicking outside
-document.addEventListener('click', function(e) {
-    const bubble = document.getElementById('contactBubble');
-    if (bubble && !bubble.contains(e.target) && contactOpen) {
-        toggleContact();
-    }
-});
-
-// Add animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateY(20px) scale(0.8); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes slideOut {
-        from { opacity: 1; transform: translateY(0) scale(1); }
-        to { opacity: 0; transform: translateY(20px) scale(0.8); }
-    }
-    
-    #contactBtn:hover {
-        transform: scale(1.05) !important;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
-    }
-`;
-document.head.appendChild(style);
-</script>
-"""
-
-components.html(contact_bubble_html, height=0)
-
 # Footer
 st.markdown("""
 <div style="text-align: center; padding: 2rem; color: white; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); margin-top: 2rem;">
@@ -491,7 +577,7 @@ st.markdown("""
         🚣‍♂️ <strong>RowTok</strong> - Revolutionizing Water Sports Training
     </p>
     <p style="margin: 0.5rem 0 0 0; opacity: 0.8;">
-        Alpha Version • Built with ❤️ for the Rowing Community.
+        Alpha Version • Built with ❤️ for the Rowing Community
     </p>
 </div>
 """, unsafe_allow_html=True)
