@@ -1,5 +1,21 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import os
+from pathlib import Path
+
+def get_logo_path():
+    """Get the path to the logo file"""
+    # Starting from the current file's directory
+    current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+    # Go up one level to the parent directory (from 'home' to the project root)
+    parent_dir = current_dir.parent
+    # Path to logo
+    logo_path = parent_dir / 'static' / 'images' / 'logo.png'
+    
+    if logo_path.exists():
+        return str(logo_path)
+    else:
+        return None
 
 # Custom CSS for styling
 st.markdown("""
@@ -37,6 +53,14 @@ st.markdown("""
     
     .logo {
         font-size: 4rem;
+        animation: float 3s ease-in-out infinite;
+    }
+    
+    .logo img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
         animation: float 3s ease-in-out infinite;
     }
     
@@ -78,6 +102,19 @@ st.markdown("""
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
     
+    /* Mobile video styling */
+    @media (max-width: 768px) {
+        .video-container {
+            max-width: 90%;
+            margin: 1rem auto;
+        }
+        
+        .video-container iframe {
+            height: 400px !important;
+            width: 100% !important;
+        }
+    }
+    
     /* Content sections */
     .content-section {
         background: white;
@@ -89,11 +126,18 @@ st.markdown("""
     }
     
     .section-title {
-        color: #2a5298;
+        color: #2a5298 !important;
         font-size: 2rem;
         font-weight: bold;
         text-align: center;
         margin-bottom: 1rem;
+    }
+    
+    /* Dark mode support for section titles */
+    @media (prefers-color-scheme: dark) {
+        .section-title {
+            color: #74b9ff !important;
+        }
     }
     
     .section-text {
@@ -133,9 +177,9 @@ st.markdown("""
     .hand-pointer {
         position: fixed;
         top: 15px;
-        left: 15px;
+        left: 60px;
         font-size: 2rem;
-        z-index: 1000;
+        z-index: 999;
         animation: bounce 2s infinite;
         cursor: pointer;
     }
@@ -149,7 +193,7 @@ st.markdown("""
     /* Floating contact menu */
     .floating-contact {
         position: fixed;
-        bottom: 20px;
+        bottom: 130px;
         right: 20px;
         z-index: 1000;
     }
@@ -248,6 +292,11 @@ st.markdown("""
         .features-grid {
             grid-template-columns: 1fr;
         }
+        
+        .hand-pointer {
+            left: 55px;
+            top: 12px;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -255,32 +304,55 @@ st.markdown("""
 # Animated hand pointer
 st.markdown("""
 <div class="hand-pointer" onclick="document.querySelector('[data-testid=\"collapsedControl\"]').click()">
-    👉
+    👈
 </div>
 """, unsafe_allow_html=True)
 
-# Hero Section
-st.markdown("""
-<div class="hero-section">
-    <div class="logo-container">
-        <div class="logo">🚣‍♂️</div>
-        <h1 class="app-title">RowTok</h1>
+# Hero Section with Logo
+logo_path = get_logo_path()
+if logo_path and os.path.exists(logo_path):
+    # Read and encode the logo
+    import base64
+    with open(logo_path, "rb") as img_file:
+        img_data = base64.b64encode(img_file.read()).decode()
+    
+    st.markdown(f"""
+    <div class="hero-section">
+        <div class="logo-container">
+            <img src="data:image/png;base64,{img_data}" class="logo" alt="RowTok Logo">
+            <h1 class="app-title">RowTok</h1>
+        </div>
+        <div class="alpha-badge">ALPHA VERSION</div>
+        <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
+            The Future of Water Sports Training is Here
+        </p>
     </div>
-    <div class="alpha-badge">ALPHA VERSION</div>
-    <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
-        The Future of Water Sports Training is Here
-    </p>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+else:
+    # Fallback to emoji if logo not found
+    st.markdown("""
+    <div class="hero-section">
+        <div class="logo-container">
+            <div class="logo">🚣‍♂️</div>
+            <h1 class="app-title">RowTok</h1>
+        </div>
+        <div class="alpha-badge">ALPHA VERSION</div>
+        <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
+            The Future of Water Sports Training is Here
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Video Section
 st.markdown("""
 <div class="video-container">
 """, unsafe_allow_html=True)
 
-# Embed YouTube video
+# Embed YouTube video with better mobile formatting
 video_url = "https://youtu.be/GYgs9DkWTjo"
-st.video(video_url)
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    st.video(video_url)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
