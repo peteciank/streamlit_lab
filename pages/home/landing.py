@@ -142,7 +142,8 @@ st.markdown("""
     .cta-button {
         display: inline-block;
         background: linear-gradient(45deg, #667eea, #764ba2);
-        color: white;
+        text-decoration: none !important;
+        color: white !important;
         padding: 1rem 2rem;
         border-radius: 30px;
         font-weight: bold;
