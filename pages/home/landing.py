@@ -530,19 +530,19 @@ interactive_html = """
                     <div class="rowtok-contact-header">📞 Contact RowTok</div>
                     <div class="rowtok-contact-item">
                         <strong>📧 Email:</strong><br>
-                        <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
+                        <a href="mailto:pedrociancaglini@gmail.com">pedrociancaglini@gmail.com</a>
                     </div>
                     <div class="rowtok-contact-item">
                         <strong>💼 LinkedIn:</strong><br>
-                        <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
+                        <a href="https://www.linkedin.com/in/pedrociancaglini/" target="_blank">Connect with us</a>
                     </div>
                     <div class="rowtok-contact-item">
                         <strong>🐦 Twitter:</strong><br>
-                        <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
+                        <a href="https://twitter.com/peterciank" target="_blank">@RowTok</a>
                     </div>
                     <div class="rowtok-contact-item">
                         <strong>📱 WhatsApp:</strong><br>
-                        <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
+                        <a href="https://wa.me/5491141693129" target="_blank">Chat with us</a>
                     </div>
                 </div>
             `;
@@ -851,10 +851,10 @@ st.markdown("""
         to access the RowTok app and start your journey to becoming a better rower!
     </p>
     <div class="cta-container">
-        <a href="https://youtube.com/playlist?list=YOUR_PLAYLIST_ID" target="_blank" class="cta-button">
+        <a href="https://youtube.com/playlist?list=PL1pP9-LXJpo1BcdAY93EC5q3UPZAaajFD&si=cS2IJ9zAVnftzWQH" target="_blank" class="cta-button">
             📺 Watch More Tutorials
         </a>
-        <a href="https://www.kickstarter.com" target="_blank" class="cta-button">
+        <a href="https://makeachamp.com/peterciank" target="_blank" class="cta-button">
             💰 Support Our Mission
         </a>
     </div>
@@ -867,7 +867,7 @@ st.markdown("""
     <h2 class="section-title">💡 Help Us Grow</h2>
     <p class="section-text">
         Love what we're building? Support RowTok's development and help us create the ultimate 
-        water sports training platform. We recommend <strong>Kickstarter</strong> for tech products 
+        water sports training platform. We recommend <strong>MakeAChamp</strong> for tech Sport products 
         like ours, as it has the best reach for international audiences and sports enthusiasts.
     </p>
     <div style="text-align: center; margin-top: 1.5rem;">
