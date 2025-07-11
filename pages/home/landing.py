@@ -144,7 +144,6 @@ st.markdown("""
         background: linear-gradient(45deg, #667eea, #764ba2);
         color: white;
         padding: 1rem 2rem;
-        text-decoration: none;
         border-radius: 30px;
         font-weight: bold;
         margin: 0.5rem;
