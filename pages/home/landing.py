@@ -541,6 +541,7 @@ else:
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
+components.html(hero_html, height=600, scrolling=False)
 
 # Video Section
 st.markdown("""
