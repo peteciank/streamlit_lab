@@ -5,11 +5,7 @@ from pathlib import Path
 import base64
 
 # Page configuration: wide layout & ensure sidebar toggle is available
-st.set_page_config(
-    page_title="RowTok",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+
 
 # Function to locate the logo file
 def get_logo_path():
