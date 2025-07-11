@@ -41,7 +41,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    /* COMPLETELY NEW Logo and title styling */
+    /* Logo and title styling */
     .header-container {
         display: flex;
         align-items: center;
@@ -186,7 +186,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* FINGER POINTER - Position to point AT arrow, not cover it */
+    /* FINGER POINTER - FIXED: Removed pointer-events: none and made it clickable */
     .finger-pointer {
         position: fixed !important;
         top: 25px !important;
@@ -196,8 +196,13 @@ st.markdown("""
         color: #ff4444 !important;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
         animation: fingerBounce 2s infinite !important;
-        pointer-events: none !important;
+        cursor: pointer !important;
         user-select: none !important;
+        transition: transform 0.2s ease !important;
+    }
+    
+    .finger-pointer:hover {
+        transform: scale(1.1) !important;
     }
     
     @keyframes fingerBounce {
@@ -212,7 +217,7 @@ st.markdown("""
         }
     }
     
-    /* CONTACT BUBBLE - Direct CSS approach */
+    /* CONTACT BUBBLE - Improved styling */
     .contact-bubble {
         position: fixed !important;
         bottom: 140px !important;
@@ -255,16 +260,15 @@ st.markdown("""
         padding: 0 !important;
         overflow: hidden !important;
         border: 1px solid #e0e0e0 !important;
+        opacity: 0 !important;
+        transform: translateY(20px) scale(0.8) !important;
+        transition: all 0.3s ease !important;
     }
     
     .contact-menu.show {
         display: block !important;
-        animation: contactSlideIn 0.3s ease-out !important;
-    }
-    
-    @keyframes contactSlideIn {
-        from { opacity: 0; transform: translateY(20px) scale(0.8); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
     }
     
     .contact-header {
@@ -339,7 +343,215 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# COMPLETELY NEW Hero Section with embedded finger pointer and contact bubble
+# IMPROVED JavaScript with better timing and error handling
+js_code = """
+<script>
+console.log('RowTok: Initializing interactive elements...');
+
+// Function to find and click Streamlit's sidebar toggle
+function toggleStreamlitSidebar() {
+    console.log('RowTok: Attempting to toggle sidebar...');
+    
+    // Multiple selectors to try for different Streamlit versions
+    const sidebarSelectors = [
+        'button[data-testid="collapsedControl"]',
+        'button[title="Open sidebar"]',
+        'button[title="Close sidebar"]',
+        'button[aria-label="Open sidebar"]',
+        'button[aria-label="Close sidebar"]',
+        '[data-testid="stSidebarNav"] button',
+        '.sidebar-toggle',
+        'button[kind="secondary"]'
+    ];
+    
+    let toggleButton = null;
+    
+    for (const selector of sidebarSelectors) {
+        toggleButton = document.querySelector(selector);
+        if (toggleButton) {
+            console.log('RowTok: Found sidebar toggle with selector:', selector);
+            break;
+        }
+    }
+    
+    if (toggleButton) {
+        console.log('RowTok: Clicking sidebar toggle...');
+        toggleButton.click();
+        return true;
+    } else {
+        console.log('RowTok: Sidebar toggle not found, trying alternative method...');
+        
+        // Alternative: Look for any button in the top-left area
+        const allButtons = document.querySelectorAll('button');
+        for (const btn of allButtons) {
+            const rect = btn.getBoundingClientRect();
+            if (rect.left < 100 && rect.top < 100 && rect.width > 20 && rect.height > 20) {
+                console.log('RowTok: Found potential sidebar button, clicking...');
+                btn.click();
+                return true;
+            }
+        }
+        
+        console.log('RowTok: Could not find sidebar toggle button');
+        return false;
+    }
+}
+
+// Setup contact bubble functionality
+function setupContactBubble() {
+    console.log('RowTok: Setting up contact bubble...');
+    
+    const btn = document.getElementById('rowtokContactBtn');
+    const menu = document.getElementById('rowtokContactMenu');
+    
+    if (!btn || !menu) {
+        console.log('RowTok: Contact elements not found yet, retrying...');
+        return false;
+    }
+    
+    console.log('RowTok: Contact elements found, setting up handlers...');
+    
+    let isOpen = false;
+    
+    // Remove any existing event listeners
+    btn.removeEventListener('click', btn._rowtokClickHandler);
+    
+    // Create new click handler
+    btn._rowtokClickHandler = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('RowTok: Contact button clicked!');
+        
+        isOpen = !isOpen;
+        
+        if (isOpen) {
+            menu.style.display = 'block';
+            // Force reflow
+            menu.offsetHeight;
+            menu.classList.add('show');
+            btn.style.background = '#20ba5a';
+            console.log('RowTok: Contact menu opened');
+        } else {
+            menu.classList.remove('show');
+            setTimeout(() => {
+                if (!menu.classList.contains('show')) {
+                    menu.style.display = 'none';
+                }
+            }, 300);
+            btn.style.background = '#25D366';
+            console.log('RowTok: Contact menu closed');
+        }
+    };
+    
+    btn.addEventListener('click', btn._rowtokClickHandler);
+    
+    // Setup outside click handler
+    if (!document._rowtokOutsideClickHandler) {
+        document._rowtokOutsideClickHandler = function(e) {
+            const bubble = document.querySelector('.contact-bubble');
+            if (isOpen && bubble && !bubble.contains(e.target)) {
+                isOpen = false;
+                menu.classList.remove('show');
+                setTimeout(() => {
+                    if (!menu.classList.contains('show')) {
+                        menu.style.display = 'none';
+                    }
+                }, 300);
+                btn.style.background = '#25D366';
+                console.log('RowTok: Contact menu closed by outside click');
+            }
+        };
+        
+        document.addEventListener('click', document._rowtokOutsideClickHandler);
+    }
+    
+    return true;
+}
+
+// Setup finger pointer functionality
+function setupFingerPointer() {
+    console.log('RowTok: Setting up finger pointer...');
+    
+    const finger = document.querySelector('.finger-pointer');
+    if (!finger) {
+        console.log('RowTok: Finger pointer not found yet, retrying...');
+        return false;
+    }
+    
+    // Remove any existing event listeners
+    finger.removeEventListener('click', finger._rowtokClickHandler);
+    
+    // Create new click handler
+    finger._rowtokClickHandler = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('RowTok: Finger pointer clicked!');
+        
+        // Add visual feedback
+        finger.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+            finger.style.transform = '';
+        }, 150);
+        
+        // Try to toggle sidebar
+        const success = toggleStreamlitSidebar();
+        if (!success) {
+            console.log('RowTok: Could not toggle sidebar - please use the Streamlit sidebar button');
+            // You could show a message to the user here
+        }
+    };
+    
+    finger.addEventListener('click', finger._rowtokClickHandler);
+    
+    return true;
+}
+
+// Initialize everything with retry logic
+function initializeRowTok() {
+    console.log('RowTok: Starting initialization...');
+    
+    const maxRetries = 10;
+    let retryCount = 0;
+    
+    function attempt() {
+        retryCount++;
+        console.log(`RowTok: Initialization attempt ${retryCount}/${maxRetries}`);
+        
+        const contactSuccess = setupContactBubble();
+        const fingerSuccess = setupFingerPointer();
+        
+        if (contactSuccess && fingerSuccess) {
+            console.log('RowTok: All elements initialized successfully!');
+            return;
+        }
+        
+        if (retryCount < maxRetries) {
+            console.log('RowTok: Some elements not ready, retrying in 500ms...');
+            setTimeout(attempt, 500);
+        } else {
+            console.log('RowTok: Max retries reached, some elements may not be functional');
+        }
+    }
+    
+    attempt();
+}
+
+// Start initialization when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRowTok);
+} else {
+    initializeRowTok();
+}
+
+// Also retry after a delay in case Streamlit loads content dynamically
+setTimeout(initializeRowTok, 1000);
+setTimeout(initializeRowTok, 2000);
+
+console.log('RowTok: Script setup complete');
+</script>
+"""
+
+# Hero Section with improved JavaScript
 logo_path = get_logo_path()
 if logo_path and os.path.exists(logo_path):
     # Read and encode the logo
@@ -387,65 +599,11 @@ if logo_path and os.path.exists(logo_path):
         </p>
     </div>
     
-    <script>
-    console.log('Script starting in same context as HTML...');
-    
-    // Wait a moment for DOM to be ready, then setup
-    setTimeout(function() {{
-        console.log('Setting up contact bubble...');
-        
-        const btn = document.getElementById('rowtokContactBtn');
-        const menu = document.getElementById('rowtokContactMenu');
-        
-        console.log('Button found:', btn);
-        console.log('Menu found:', menu);
-        
-        if (!btn || !menu) {{
-            console.error('Elements still not found!');
-            return;
-        }}
-        
-        let isOpen = false;
-        
-        btn.onclick = function(e) {{
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Button clicked! Opening/closing menu...');
-            
-            isOpen = !isOpen;
-            
-            if (isOpen) {{
-                menu.style.display = 'block';
-                menu.classList.add('show');
-                btn.style.background = '#20ba5a';
-                console.log('Menu opened');
-            }} else {{
-                menu.style.display = 'none';
-                menu.classList.remove('show');
-                btn.style.background = '#25D366';
-                console.log('Menu closed');
-            }}
-        }};
-        
-        // Close when clicking outside
-        document.addEventListener('click', function(e) {{
-            const bubble = document.querySelector('.contact-bubble');
-            if (isOpen && bubble && !bubble.contains(e.target)) {{
-                isOpen = false;
-                menu.style.display = 'none';
-                menu.classList.remove('show');
-                btn.style.background = '#25D366';
-                console.log('Menu closed by outside click');
-            }}
-        }});
-        
-        console.log('Contact bubble setup completed!');
-    }}, 100);
-    </script>
+    {js_code}
     """
 else:
     # Fallback to emoji if logo not found
-    hero_html = """
+    hero_html = f"""
     <!-- Finger Pointer -->
     <div class="finger-pointer">👈</div>
     
@@ -485,61 +643,7 @@ else:
         </p>
     </div>
     
-    <script>
-    console.log('Script starting in same context as HTML...');
-    
-    // Wait a moment for DOM to be ready, then setup
-    setTimeout(function() {
-        console.log('Setting up contact bubble...');
-        
-        const btn = document.getElementById('rowtokContactBtn');
-        const menu = document.getElementById('rowtokContactMenu');
-        
-        console.log('Button found:', btn);
-        console.log('Menu found:', menu);
-        
-        if (!btn || !menu) {
-            console.error('Elements still not found!');
-            return;
-        }
-        
-        let isOpen = false;
-        
-        btn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Button clicked! Opening/closing menu...');
-            
-            isOpen = !isOpen;
-            
-            if (isOpen) {
-                menu.style.display = 'block';
-                menu.classList.add('show');
-                btn.style.background = '#20ba5a';
-                console.log('Menu opened');
-            } else {
-                menu.style.display = 'none';
-                menu.classList.remove('show');
-                btn.style.background = '#25D366';
-                console.log('Menu closed');
-            }
-        };
-        
-        // Close when clicking outside
-        document.addEventListener('click', function(e) {
-            const bubble = document.querySelector('.contact-bubble');
-            if (isOpen && bubble && !bubble.contains(e.target)) {
-                isOpen = false;
-                menu.style.display = 'none';
-                menu.classList.remove('show');
-                btn.style.background = '#25D366';
-                console.log('Menu closed by outside click');
-            }
-        });
-        
-        console.log('Contact bubble setup completed!');
-    }, 100);
-    </script>
+    {js_code}
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
