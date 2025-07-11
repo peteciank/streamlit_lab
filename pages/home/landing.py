@@ -23,6 +23,7 @@ st.markdown("""
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header {visibility: hidden;}
     
     /* Main container styling */
     .main-container {
@@ -388,58 +389,59 @@ if logo_path and os.path.exists(logo_path):
     </div>
     
     <script>
-    (function() {{
-        let isContactOpen = false;
+    console.log('Script starting in same context as HTML...');
+    
+    // Wait a moment for DOM to be ready, then setup
+    setTimeout(function() {{
+        console.log('Setting up contact bubble...');
         
-        function initContactBubble() {{
-            const btn = document.getElementById('rowtokContactBtn');
-            const menu = document.getElementById('rowtokContactMenu');
-            
-            if (!btn || !menu) {{
-                console.log('Contact elements not found, retrying in 500ms...');
-                setTimeout(initContactBubble, 500);
-                return;
-            }}
-            
-            console.log('Contact bubble found and initializing...');
-            
-            btn.onclick = function(e) {{
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Contact button clicked!');
-                
-                isContactOpen = !isContactOpen;
-                
-                if (isContactOpen) {{
-                    menu.classList.add('show');
-                    btn.style.background = '#20ba5a';
-                    btn.style.transform = 'scale(1.1)';
-                }} else {{
-                    menu.classList.remove('show');
-                    btn.style.background = '#25D366';
-                    btn.style.transform = 'scale(1)';
-                }}
-            }};
-            
-            // Close when clicking outside
-            document.addEventListener('click', function(e) {{
-                const bubble = document.querySelector('.contact-bubble');
-                if (bubble && !bubble.contains(e.target) && isContactOpen) {{
-                    menu.classList.remove('show');
-                    btn.style.background = '#25D366';
-                    btn.style.transform = 'scale(1)';
-                    isContactOpen = false;
-                }}
-            }});
-            
-            console.log('Contact bubble setup complete!');
+        const btn = document.getElementById('rowtokContactBtn');
+        const menu = document.getElementById('rowtokContactMenu');
+        
+        console.log('Button found:', btn);
+        console.log('Menu found:', menu);
+        
+        if (!btn || !menu) {{
+            console.error('Elements still not found!');
+            return;
         }}
         
-        // Try immediately and also after delays
-        initContactBubble();
-        setTimeout(initContactBubble, 100);
-        setTimeout(initContactBubble, 1000);
-    }})();
+        let isOpen = false;
+        
+        btn.onclick = function(e) {{
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked! Opening/closing menu...');
+            
+            isOpen = !isOpen;
+            
+            if (isOpen) {{
+                menu.style.display = 'block';
+                menu.classList.add('show');
+                btn.style.background = '#20ba5a';
+                console.log('Menu opened');
+            }} else {{
+                menu.style.display = 'none';
+                menu.classList.remove('show');
+                btn.style.background = '#25D366';
+                console.log('Menu closed');
+            }}
+        }};
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {{
+            const bubble = document.querySelector('.contact-bubble');
+            if (isOpen && bubble && !bubble.contains(e.target)) {{
+                isOpen = false;
+                menu.style.display = 'none';
+                menu.classList.remove('show');
+                btn.style.background = '#25D366';
+                console.log('Menu closed by outside click');
+            }}
+        }});
+        
+        console.log('Contact bubble setup completed!');
+    }}, 100);
     </script>
     """
 else:
@@ -485,133 +487,63 @@ else:
     </div>
     
     <script>
-    (function() {
-        let isContactOpen = false;
+    console.log('Script starting in same context as HTML...');
+    
+    // Wait a moment for DOM to be ready, then setup
+    setTimeout(function() {
+        console.log('Setting up contact bubble...');
         
-        function initContactBubble() {
-            const btn = document.getElementById('rowtokContactBtn');
-            const menu = document.getElementById('rowtokContactMenu');
-            
-            if (!btn || !menu) {
-                console.log('Contact elements not found, retrying in 500ms...');
-                setTimeout(initContactBubble, 500);
-                return;
-            }
-            
-            console.log('Contact bubble found and initializing...');
-            
-            btn.onclick = function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Contact button clicked!');
-                
-                isContactOpen = !isContactOpen;
-                
-                if (isContactOpen) {
-                    menu.classList.add('show');
-                    btn.style.background = '#20ba5a';
-                    btn.style.transform = 'scale(1.1)';
-                } else {
-                    menu.classList.remove('show');
-                    btn.style.background = '#25D366';
-                    btn.style.transform = 'scale(1)';
-                }
-            };
-            
-            // Close when clicking outside
-            document.addEventListener('click', function(e) {
-                const bubble = document.querySelector('.contact-bubble');
-                if (bubble && !bubble.contains(e.target) && isContactOpen) {
-                    menu.classList.remove('show');
-                    btn.style.background = '#25D366';
-                    btn.style.transform = 'scale(1)';
-                    isContactOpen = false;
-                }
-            });
-            
-            console.log('Contact bubble setup complete!');
+        const btn = document.getElementById('rowtokContactBtn');
+        const menu = document.getElementById('rowtokContactMenu');
+        
+        console.log('Button found:', btn);
+        console.log('Menu found:', menu);
+        
+        if (!btn || !menu) {
+            console.error('Elements still not found!');
+            return;
         }
         
-        // Try immediately and also after delays
-        initContactBubble();
-        setTimeout(initContactBubble, 100);
-        setTimeout(initContactBubble, 1000);
-    })();
+        let isOpen = false;
+        
+        btn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Button clicked! Opening/closing menu...');
+            
+            isOpen = !isOpen;
+            
+            if (isOpen) {
+                menu.style.display = 'block';
+                menu.classList.add('show');
+                btn.style.background = '#20ba5a';
+                console.log('Menu opened');
+            } else {
+                menu.style.display = 'none';
+                menu.classList.remove('show');
+                btn.style.background = '#25D366';
+                console.log('Menu closed');
+            }
+        };
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            const bubble = document.querySelector('.contact-bubble');
+            if (isOpen && bubble && !bubble.contains(e.target)) {
+                isOpen = false;
+                menu.style.display = 'none';
+                menu.classList.remove('show');
+                btn.style.background = '#25D366';
+                console.log('Menu closed by outside click');
+            }
+        });
+        
+        console.log('Contact bubble setup completed!');
+    }, 100);
     </script>
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
-
-# Fix contact popup with a more reliable approach
-contact_fix_js = """
-<script>
-// Simple, direct approach to fix contact popup
-function fixContactBubble() {
-    console.log('Attempting to fix contact bubble...');
-    
-    const btn = document.getElementById('rowtokContactBtn');
-    const menu = document.getElementById('rowtokContactMenu');
-    
-    if (!btn || !menu) {
-        console.log('Elements not found, will retry...');
-        setTimeout(fixContactBubble, 200);
-        return;
-    }
-    
-    console.log('Contact elements found!');
-    
-    let isOpen = false;
-    
-    // Direct onclick assignment
-    btn.onclick = function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        
-        console.log('Contact button clicked! Current state:', isOpen);
-        
-        isOpen = !isOpen;
-        
-        if (isOpen) {
-            console.log('Opening menu...');
-            menu.style.display = 'block';
-            menu.classList.add('show');
-            btn.style.background = '#20ba5a';
-            btn.style.transform = 'scale(1.1)';
-        } else {
-            console.log('Closing menu...');
-            menu.style.display = 'none';
-            menu.classList.remove('show');
-            btn.style.background = '#25D366';
-            btn.style.transform = 'scale(1)';
-        }
-    };
-    
-    // Click outside to close
-    document.onclick = function(event) {
-        const bubble = document.querySelector('.contact-bubble');
-        if (isOpen && bubble && !bubble.contains(event.target)) {
-            console.log('Clicking outside, closing menu...');
-            isOpen = false;
-            menu.style.display = 'none';
-            menu.classList.remove('show');
-            btn.style.background = '#25D366';
-            btn.style.transform = 'scale(1)';
-        }
-    };
-    
-    console.log('Contact bubble setup completed successfully!');
-}
-
-// Try multiple times to ensure it works
-fixContactBubble();
-setTimeout(fixContactBubble, 100);
-setTimeout(fixContactBubble, 500);
-setTimeout(fixContactBubble, 1000);
-setTimeout(fixContactBubble, 2000);
-</script>
-"""
-
-components.html(contact_fix_js, height=0)
 
 # Video Section
 st.markdown("""
