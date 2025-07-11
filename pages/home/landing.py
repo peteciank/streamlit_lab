@@ -11,6 +11,7 @@ def get_logo_path():
     parent_dir = current_dir.parent
     # Path to logo
     logo_path = parent_dir / 'static' / 'images' / 'logo.png'
+    st.write(logo_path)
     
     if logo_path.exists():
         return str(logo_path)
