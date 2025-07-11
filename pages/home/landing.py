@@ -23,6 +23,7 @@ st.markdown("""
     /* Hide Streamlit default elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    header {visibility: hidden;}
     
     /* Main container styling */
     .main-container {
@@ -541,7 +542,77 @@ else:
     """
 
 st.markdown(hero_html, unsafe_allow_html=True)
-components.html(hero_html, height=600, scrolling=False)
+
+# Fix contact popup with a more reliable approach
+contact_fix_js = """
+<script>
+// Simple, direct approach to fix contact popup
+function fixContactBubble() {
+    console.log('Attempting to fix contact bubble...');
+    
+    const btn = document.getElementById('rowtokContactBtn');
+    const menu = document.getElementById('rowtokContactMenu');
+    
+    if (!btn || !menu) {
+        console.log('Elements not found, will retry...');
+        setTimeout(fixContactBubble, 200);
+        return;
+    }
+    
+    console.log('Contact elements found!');
+    
+    let isOpen = false;
+    
+    // Direct onclick assignment
+    btn.onclick = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        console.log('Contact button clicked! Current state:', isOpen);
+        
+        isOpen = !isOpen;
+        
+        if (isOpen) {
+            console.log('Opening menu...');
+            menu.style.display = 'block';
+            menu.classList.add('show');
+            btn.style.background = '#20ba5a';
+            btn.style.transform = 'scale(1.1)';
+        } else {
+            console.log('Closing menu...');
+            menu.style.display = 'none';
+            menu.classList.remove('show');
+            btn.style.background = '#25D366';
+            btn.style.transform = 'scale(1)';
+        }
+    };
+    
+    // Click outside to close
+    document.onclick = function(event) {
+        const bubble = document.querySelector('.contact-bubble');
+        if (isOpen && bubble && !bubble.contains(event.target)) {
+            console.log('Clicking outside, closing menu...');
+            isOpen = false;
+            menu.style.display = 'none';
+            menu.classList.remove('show');
+            btn.style.background = '#25D366';
+            btn.style.transform = 'scale(1)';
+        }
+    };
+    
+    console.log('Contact bubble setup completed successfully!');
+}
+
+// Try multiple times to ensure it works
+fixContactBubble();
+setTimeout(fixContactBubble, 100);
+setTimeout(fixContactBubble, 500);
+setTimeout(fixContactBubble, 1000);
+setTimeout(fixContactBubble, 2000);
+</script>
+"""
+
+components.html(contact_fix_js, height=0)
 
 # Video Section
 st.markdown("""
