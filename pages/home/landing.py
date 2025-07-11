@@ -17,7 +17,7 @@ def get_logo_path():
     else:
         return None
 
-# Custom CSS for styling
+# Custom CSS for styling - using st.markdown for CSS only
 st.markdown("""
 <style>
     /* Hide Streamlit default elements */
@@ -343,215 +343,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# IMPROVED JavaScript with better timing and error handling
-js_code = """
-<script>
-console.log('RowTok: Initializing interactive elements...');
-
-// Function to find and click Streamlit's sidebar toggle
-function toggleStreamlitSidebar() {
-    console.log('RowTok: Attempting to toggle sidebar...');
-    
-    // Multiple selectors to try for different Streamlit versions
-    const sidebarSelectors = [
-        'button[data-testid="collapsedControl"]',
-        'button[title="Open sidebar"]',
-        'button[title="Close sidebar"]',
-        'button[aria-label="Open sidebar"]',
-        'button[aria-label="Close sidebar"]',
-        '[data-testid="stSidebarNav"] button',
-        '.sidebar-toggle',
-        'button[kind="secondary"]'
-    ];
-    
-    let toggleButton = null;
-    
-    for (const selector of sidebarSelectors) {
-        toggleButton = document.querySelector(selector);
-        if (toggleButton) {
-            console.log('RowTok: Found sidebar toggle with selector:', selector);
-            break;
-        }
-    }
-    
-    if (toggleButton) {
-        console.log('RowTok: Clicking sidebar toggle...');
-        toggleButton.click();
-        return true;
-    } else {
-        console.log('RowTok: Sidebar toggle not found, trying alternative method...');
-        
-        // Alternative: Look for any button in the top-left area
-        const allButtons = document.querySelectorAll('button');
-        for (const btn of allButtons) {
-            const rect = btn.getBoundingClientRect();
-            if (rect.left < 100 && rect.top < 100 && rect.width > 20 && rect.height > 20) {
-                console.log('RowTok: Found potential sidebar button, clicking...');
-                btn.click();
-                return true;
-            }
-        }
-        
-        console.log('RowTok: Could not find sidebar toggle button');
-        return false;
-    }
-}
-
-// Setup contact bubble functionality
-function setupContactBubble() {
-    console.log('RowTok: Setting up contact bubble...');
-    
-    const btn = document.getElementById('rowtokContactBtn');
-    const menu = document.getElementById('rowtokContactMenu');
-    
-    if (!btn || !menu) {
-        console.log('RowTok: Contact elements not found yet, retrying...');
-        return false;
-    }
-    
-    console.log('RowTok: Contact elements found, setting up handlers...');
-    
-    let isOpen = false;
-    
-    // Remove any existing event listeners
-    btn.removeEventListener('click', btn._rowtokClickHandler);
-    
-    // Create new click handler
-    btn._rowtokClickHandler = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('RowTok: Contact button clicked!');
-        
-        isOpen = !isOpen;
-        
-        if (isOpen) {
-            menu.style.display = 'block';
-            // Force reflow
-            menu.offsetHeight;
-            menu.classList.add('show');
-            btn.style.background = '#20ba5a';
-            console.log('RowTok: Contact menu opened');
-        } else {
-            menu.classList.remove('show');
-            setTimeout(() => {
-                if (!menu.classList.contains('show')) {
-                    menu.style.display = 'none';
-                }
-            }, 300);
-            btn.style.background = '#25D366';
-            console.log('RowTok: Contact menu closed');
-        }
-    };
-    
-    btn.addEventListener('click', btn._rowtokClickHandler);
-    
-    // Setup outside click handler
-    if (!document._rowtokOutsideClickHandler) {
-        document._rowtokOutsideClickHandler = function(e) {
-            const bubble = document.querySelector('.contact-bubble');
-            if (isOpen && bubble && !bubble.contains(e.target)) {
-                isOpen = false;
-                menu.classList.remove('show');
-                setTimeout(() => {
-                    if (!menu.classList.contains('show')) {
-                        menu.style.display = 'none';
-                    }
-                }, 300);
-                btn.style.background = '#25D366';
-                console.log('RowTok: Contact menu closed by outside click');
-            }
-        };
-        
-        document.addEventListener('click', document._rowtokOutsideClickHandler);
-    }
-    
-    return true;
-}
-
-// Setup finger pointer functionality
-function setupFingerPointer() {
-    console.log('RowTok: Setting up finger pointer...');
-    
-    const finger = document.querySelector('.finger-pointer');
-    if (!finger) {
-        console.log('RowTok: Finger pointer not found yet, retrying...');
-        return false;
-    }
-    
-    // Remove any existing event listeners
-    finger.removeEventListener('click', finger._rowtokClickHandler);
-    
-    // Create new click handler
-    finger._rowtokClickHandler = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('RowTok: Finger pointer clicked!');
-        
-        // Add visual feedback
-        finger.style.transform = 'scale(0.8)';
-        setTimeout(() => {
-            finger.style.transform = '';
-        }, 150);
-        
-        // Try to toggle sidebar
-        const success = toggleStreamlitSidebar();
-        if (!success) {
-            console.log('RowTok: Could not toggle sidebar - please use the Streamlit sidebar button');
-            // You could show a message to the user here
-        }
-    };
-    
-    finger.addEventListener('click', finger._rowtokClickHandler);
-    
-    return true;
-}
-
-// Initialize everything with retry logic
-function initializeRowTok() {
-    console.log('RowTok: Starting initialization...');
-    
-    const maxRetries = 10;
-    let retryCount = 0;
-    
-    function attempt() {
-        retryCount++;
-        console.log(`RowTok: Initialization attempt ${retryCount}/${maxRetries}`);
-        
-        const contactSuccess = setupContactBubble();
-        const fingerSuccess = setupFingerPointer();
-        
-        if (contactSuccess && fingerSuccess) {
-            console.log('RowTok: All elements initialized successfully!');
-            return;
-        }
-        
-        if (retryCount < maxRetries) {
-            console.log('RowTok: Some elements not ready, retrying in 500ms...');
-            setTimeout(attempt, 500);
-        } else {
-            console.log('RowTok: Max retries reached, some elements may not be functional');
-        }
-    }
-    
-    attempt();
-}
-
-// Start initialization when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeRowTok);
-} else {
-    initializeRowTok();
-}
-
-// Also retry after a delay in case Streamlit loads content dynamically
-setTimeout(initializeRowTok, 1000);
-setTimeout(initializeRowTok, 2000);
-
-console.log('RowTok: Script setup complete');
-</script>
-"""
-
-# Hero Section with improved JavaScript
+# Create the interactive elements using components.html()
 logo_path = get_logo_path()
 if logo_path and os.path.exists(logo_path):
     # Read and encode the logo
@@ -559,7 +351,20 @@ if logo_path and os.path.exists(logo_path):
     with open(logo_path, "rb") as img_file:
         img_data = base64.b64encode(img_file.read()).decode()
     
-    hero_html = f"""
+    interactive_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }}
+    </style>
+</head>
+<body>
     <!-- Finger Pointer -->
     <div class="finger-pointer">👈</div>
     
@@ -586,8 +391,415 @@ if logo_path and os.path.exists(logo_path):
             </div>
         </div>
     </div>
+
+    <script>
+        console.log('RowTok: Initializing interactive elements...');
+
+        // Function to find and click Streamlit's sidebar toggle
+        function toggleStreamlitSidebar() {{
+            console.log('RowTok: Attempting to toggle sidebar...');
+            
+            // Access parent window (Streamlit)
+            const parentWindow = window.parent;
+            const parentDoc = parentWindow.document;
+            
+            // Multiple selectors to try for different Streamlit versions
+            const sidebarSelectors = [
+                'button[data-testid="collapsedControl"]',
+                'button[title="Open sidebar"]',
+                'button[title="Close sidebar"]',
+                'button[aria-label="Open sidebar"]',
+                'button[aria-label="Close sidebar"]',
+                '[data-testid="stSidebarNav"] button',
+                '.sidebar-toggle',
+                'button[kind="secondary"]'
+            ];
+            
+            let toggleButton = null;
+            
+            for (const selector of sidebarSelectors) {{
+                toggleButton = parentDoc.querySelector(selector);
+                if (toggleButton) {{
+                    console.log('RowTok: Found sidebar toggle with selector:', selector);
+                    break;
+                }}
+            }}
+            
+            if (toggleButton) {{
+                console.log('RowTok: Clicking sidebar toggle...');
+                toggleButton.click();
+                return true;
+            }} else {{
+                console.log('RowTok: Sidebar toggle not found, trying alternative method...');
+                
+                // Alternative: Look for any button in the top-left area
+                const allButtons = parentDoc.querySelectorAll('button');
+                for (const btn of allButtons) {{
+                    const rect = btn.getBoundingClientRect();
+                    if (rect.left < 100 && rect.top < 100 && rect.width > 20 && rect.height > 20) {{
+                        console.log('RowTok: Found potential sidebar button, clicking...');
+                        btn.click();
+                        return true;
+                    }}
+                }}
+                
+                console.log('RowTok: Could not find sidebar toggle button');
+                return false;
+            }}
+        }}
+
+        // Setup contact bubble functionality
+        function setupContactBubble() {{
+            console.log('RowTok: Setting up contact bubble...');
+            
+            const btn = document.getElementById('rowtokContactBtn');
+            const menu = document.getElementById('rowtokContactMenu');
+            
+            if (!btn || !menu) {{
+                console.log('RowTok: Contact elements not found yet, retrying...');
+                return false;
+            }}
+            
+            console.log('RowTok: Contact elements found, setting up handlers...');
+            
+            let isOpen = false;
+            
+            // Create new click handler
+            btn.onclick = function(e) {{
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('RowTok: Contact button clicked!');
+                
+                isOpen = !isOpen;
+                
+                if (isOpen) {{
+                    menu.style.display = 'block';
+                    // Force reflow
+                    menu.offsetHeight;
+                    menu.classList.add('show');
+                    btn.style.background = '#20ba5a';
+                    console.log('RowTok: Contact menu opened');
+                }} else {{
+                    menu.classList.remove('show');
+                    setTimeout(() => {{
+                        if (!menu.classList.contains('show')) {{
+                            menu.style.display = 'none';
+                        }}
+                    }}, 300);
+                    btn.style.background = '#25D366';
+                    console.log('RowTok: Contact menu closed');
+                }}
+            }};
+            
+            // Setup outside click handler
+            document.addEventListener('click', function(e) {{
+                const bubble = document.querySelector('.contact-bubble');
+                if (isOpen && bubble && !bubble.contains(e.target)) {{
+                    isOpen = false;
+                    menu.classList.remove('show');
+                    setTimeout(() => {{
+                        if (!menu.classList.contains('show')) {{
+                            menu.style.display = 'none';
+                        }}
+                    }}, 300);
+                    btn.style.background = '#25D366';
+                    console.log('RowTok: Contact menu closed by outside click');
+                }}
+            }});
+            
+            return true;
+        }}
+
+        // Setup finger pointer functionality
+        function setupFingerPointer() {{
+            console.log('RowTok: Setting up finger pointer...');
+            
+            const finger = document.querySelector('.finger-pointer');
+            if (!finger) {{
+                console.log('RowTok: Finger pointer not found yet, retrying...');
+                return false;
+            }}
+            
+            // Create new click handler
+            finger.onclick = function(e) {{
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('RowTok: Finger pointer clicked!');
+                
+                // Add visual feedback
+                finger.style.transform = 'scale(0.8)';
+                setTimeout(() => {{
+                    finger.style.transform = '';
+                }}, 150);
+                
+                // Try to toggle sidebar
+                const success = toggleStreamlitSidebar();
+                if (!success) {{
+                    console.log('RowTok: Could not toggle sidebar - please use the Streamlit sidebar button');
+                }}
+            }};
+            
+            return true;
+        }}
+
+        // Initialize everything
+        function initializeRowTok() {{
+            console.log('RowTok: Starting initialization...');
+            
+            const contactSuccess = setupContactBubble();
+            const fingerSuccess = setupFingerPointer();
+            
+            if (contactSuccess && fingerSuccess) {{
+                console.log('RowTok: All elements initialized successfully!');
+            }} else {{
+                console.log('RowTok: Some elements may not be functional');
+            }}
+        }}
+
+        // Start initialization when DOM is ready
+        if (document.readyState === 'loading') {{
+            document.addEventListener('DOMContentLoaded', initializeRowTok);
+        }} else {{
+            initializeRowTok();
+        }}
+
+        console.log('RowTok: Script setup complete');
+    </script>
+</body>
+</html>
+    """
+else:
+    # Fallback to emoji if logo not found
+    interactive_html = """
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Finger Pointer -->
+    <div class="finger-pointer">👈</div>
     
-    <!-- Hero Section -->
+    <!-- Contact Bubble -->
+    <div class="contact-bubble">
+        <button class="contact-button" id="rowtokContactBtn">💬</button>
+        <div class="contact-menu" id="rowtokContactMenu">
+            <div class="contact-header">📞 Contact RowTok</div>
+            <div class="contact-item">
+                <strong>📧 Email:</strong><br>
+                <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
+            </div>
+            <div class="contact-item">
+                <strong>💼 LinkedIn:</strong><br>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
+            </div>
+            <div class="contact-item">
+                <strong>🐦 Twitter:</strong><br>
+                <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
+            </div>
+            <div class="contact-item">
+                <strong>📱 WhatsApp:</strong><br>
+                <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('RowTok: Initializing interactive elements...');
+
+        // Function to find and click Streamlit's sidebar toggle
+        function toggleStreamlitSidebar() {
+            console.log('RowTok: Attempting to toggle sidebar...');
+            
+            // Access parent window (Streamlit)
+            const parentWindow = window.parent;
+            const parentDoc = parentWindow.document;
+            
+            // Multiple selectors to try for different Streamlit versions
+            const sidebarSelectors = [
+                'button[data-testid="collapsedControl"]',
+                'button[title="Open sidebar"]',
+                'button[title="Close sidebar"]',
+                'button[aria-label="Open sidebar"]',
+                'button[aria-label="Close sidebar"]',
+                '[data-testid="stSidebarNav"] button',
+                '.sidebar-toggle',
+                'button[kind="secondary"]'
+            ];
+            
+            let toggleButton = null;
+            
+            for (const selector of sidebarSelectors) {
+                toggleButton = parentDoc.querySelector(selector);
+                if (toggleButton) {
+                    console.log('RowTok: Found sidebar toggle with selector:', selector);
+                    break;
+                }
+            }
+            
+            if (toggleButton) {
+                console.log('RowTok: Clicking sidebar toggle...');
+                toggleButton.click();
+                return true;
+            } else {
+                console.log('RowTok: Sidebar toggle not found, trying alternative method...');
+                
+                // Alternative: Look for any button in the top-left area
+                const allButtons = parentDoc.querySelectorAll('button');
+                for (const btn of allButtons) {
+                    const rect = btn.getBoundingClientRect();
+                    if (rect.left < 100 && rect.top < 100 && rect.width > 20 && rect.height > 20) {
+                        console.log('RowTok: Found potential sidebar button, clicking...');
+                        btn.click();
+                        return true;
+                    }
+                }
+                
+                console.log('RowTok: Could not find sidebar toggle button');
+                return false;
+            }
+        }
+
+        // Setup contact bubble functionality
+        function setupContactBubble() {
+            console.log('RowTok: Setting up contact bubble...');
+            
+            const btn = document.getElementById('rowtokContactBtn');
+            const menu = document.getElementById('rowtokContactMenu');
+            
+            if (!btn || !menu) {
+                console.log('RowTok: Contact elements not found yet, retrying...');
+                return false;
+            }
+            
+            console.log('RowTok: Contact elements found, setting up handlers...');
+            
+            let isOpen = false;
+            
+            // Create new click handler
+            btn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('RowTok: Contact button clicked!');
+                
+                isOpen = !isOpen;
+                
+                if (isOpen) {
+                    menu.style.display = 'block';
+                    // Force reflow
+                    menu.offsetHeight;
+                    menu.classList.add('show');
+                    btn.style.background = '#20ba5a';
+                    console.log('RowTok: Contact menu opened');
+                } else {
+                    menu.classList.remove('show');
+                    setTimeout(() => {
+                        if (!menu.classList.contains('show')) {
+                            menu.style.display = 'none';
+                        }
+                    }, 300);
+                    btn.style.background = '#25D366';
+                    console.log('RowTok: Contact menu closed');
+                }
+            };
+            
+            // Setup outside click handler
+            document.addEventListener('click', function(e) {
+                const bubble = document.querySelector('.contact-bubble');
+                if (isOpen && bubble && !bubble.contains(e.target)) {
+                    isOpen = false;
+                    menu.classList.remove('show');
+                    setTimeout(() => {
+                        if (!menu.classList.contains('show')) {
+                            menu.style.display = 'none';
+                        }
+                    }, 300);
+                    btn.style.background = '#25D366';
+                    console.log('RowTok: Contact menu closed by outside click');
+                }
+            });
+            
+            return true;
+        }
+
+        // Setup finger pointer functionality
+        function setupFingerPointer() {
+            console.log('RowTok: Setting up finger pointer...');
+            
+            const finger = document.querySelector('.finger-pointer');
+            if (!finger) {
+                console.log('RowTok: Finger pointer not found yet, retrying...');
+                return false;
+            }
+            
+            // Create new click handler
+            finger.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('RowTok: Finger pointer clicked!');
+                
+                // Add visual feedback
+                finger.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    finger.style.transform = '';
+                }, 150);
+                
+                // Try to toggle sidebar
+                const success = toggleStreamlitSidebar();
+                if (!success) {
+                    console.log('RowTok: Could not toggle sidebar - please use the Streamlit sidebar button');
+                }
+            };
+            
+            return true;
+        }
+
+        // Initialize everything
+        function initializeRowTok() {
+            console.log('RowTok: Starting initialization...');
+            
+            const contactSuccess = setupContactBubble();
+            const fingerSuccess = setupFingerPointer();
+            
+            if (contactSuccess && fingerSuccess) {
+                console.log('RowTok: All elements initialized successfully!');
+            } else {
+                console.log('RowTok: Some elements may not be functional');
+            }
+        }
+
+        // Start initialization when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeRowTok);
+        } else {
+            initializeRowTok();
+        }
+
+        console.log('RowTok: Script setup complete');
+    </script>
+</body>
+</html>
+    """
+
+# Render the interactive elements using components.html()
+components.html(interactive_html, height=0)
+
+# Hero Section with just the visual content
+logo_path = get_logo_path()
+if logo_path and os.path.exists(logo_path):
+    # Read and encode the logo
+    import base64
+    with open(logo_path, "rb") as img_file:
+        img_data = base64.b64encode(img_file.read()).decode()
+    
+    st.markdown(f"""
     <div class="hero-section">
         <div class="header-container">
             <img src="data:image/png;base64,{img_data}" class="rowtok-logo" alt="RowTok Logo">
@@ -598,40 +810,10 @@ if logo_path and os.path.exists(logo_path):
             The Future of Water Sports Training is Here
         </p>
     </div>
-    
-    {js_code}
-    """
+    """, unsafe_allow_html=True)
 else:
     # Fallback to emoji if logo not found
-    hero_html = f"""
-    <!-- Finger Pointer -->
-    <div class="finger-pointer">👈</div>
-    
-    <!-- Contact Bubble -->
-    <div class="contact-bubble">
-        <button class="contact-button" id="rowtokContactBtn">💬</button>
-        <div class="contact-menu" id="rowtokContactMenu">
-            <div class="contact-header">📞 Contact RowTok</div>
-            <div class="contact-item">
-                <strong>📧 Email:</strong><br>
-                <a href="mailto:contact@rowtok.app">contact@rowtok.app</a>
-            </div>
-            <div class="contact-item">
-                <strong>💼 LinkedIn:</strong><br>
-                <a href="https://linkedin.com/in/yourprofile" target="_blank">Connect with us</a>
-            </div>
-            <div class="contact-item">
-                <strong>🐦 Twitter:</strong><br>
-                <a href="https://twitter.com/rowtok" target="_blank">@RowTok</a>
-            </div>
-            <div class="contact-item">
-                <strong>📱 WhatsApp:</strong><br>
-                <a href="https://wa.me/1234567890" target="_blank">Chat with us</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Hero Section -->
+    st.markdown("""
     <div class="hero-section">
         <div class="header-container">
             <div style="font-size: 4rem; animation: logoFloat 3s ease-in-out infinite;">🚣‍♂️</div>
@@ -642,11 +824,7 @@ else:
             The Future of Water Sports Training is Here
         </p>
     </div>
-    
-    {js_code}
-    """
-
-st.markdown(hero_html, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # Video Section
 st.markdown("""
@@ -743,7 +921,7 @@ st.markdown("""
         🚣‍♂️ <strong>RowTok</strong> - Revolutionizing Water Sports Training
     </p>
     <p style="margin: 0.5rem 0 0 0; opacity: 0.8;">
-        Alpha Version • Built with ❤️ for the Rowing Community.
+        Alpha Version • Built with ❤️ for the Rowing Community
     </p>
 </div>
 """, unsafe_allow_html=True)
