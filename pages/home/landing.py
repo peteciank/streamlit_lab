@@ -44,6 +44,9 @@ st.markdown("""
     
     /* Logo and title styling */
     .logo-container {
+        border-radius:50%;
+        width: 80px;
+        height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
