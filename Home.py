@@ -34,6 +34,7 @@ st_context = st.Page("pages/research/Context.py", title="Context", icon=":materi
 st_playsound = st.Page("pages/research/play_sound.py", title="Play Sound", icon=":material/volume_up:")
 st_camera = st.Page("pages/research/camera.py", title="Camera", icon=":material/video_camera_front:")
 st_sensors = st.Page("pages/research/sensors.py", title="Sensors", icon=":material/sensors:")
+st_sensors_advance = st.Page("pages/research/sensors_advance.py", title="Advanced Sensors", icon=":material/sensors:")
 
 
 
@@ -44,7 +45,7 @@ pg = st.navigation(
         "Organizers": [col_size, landing],
         "Links": [link_manager],
         #"DB": [db_start, db_api, db_call_api, db_upload, db_delete_query, db_delete_table, db_plot, db_save],
-        "Research": [st_context, st_playsound, st_camera, st_sensors],
+        "Research": [st_context, st_playsound, st_camera, st_sensors, st_sensors_advance],
     }, position="sidebar"
 )
 
