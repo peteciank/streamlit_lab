@@ -25,7 +25,6 @@ db_save = st.Page("pages/db/bi/src/pages/save_query.py", title="Save Query", ico
 # ----------- Styling -------------------------
 data_app = st.Page("pages/styling/superapp.py", title="Data Management", icon=":material/database:")
 counter = st.Page("pages/styling/counter.py", title="DB", icon=":material/database:")
-backlog = st.Page("pages/styling/backlog.py", title="Backlog", icon=":material/fact_check:")
 
 
 # ----------- Links CRUD ----------------------
@@ -44,7 +43,7 @@ st_sensors_advance = st.Page("pages/research/sensors_advance.py", title="Advance
 pg = st.navigation(
     {
         "Home": [home],
-        "Organizers": [col_size, landing, backlog],
+        "Organizers": [col_size, landing],
         "Links": [link_manager],
         "DB": [data_app],
         "Research": [st_context, st_playsound, st_camera, st_sensors, st_sensors_advance],
