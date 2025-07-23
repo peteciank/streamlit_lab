@@ -428,6 +428,10 @@ def main():
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    from libs.myside import MySidebar
+    with st.sidebar:
+        MySidebar()
     
     # Roadmap timeline
     st.markdown("---")
