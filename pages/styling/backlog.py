@@ -426,7 +426,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    bt_col1, bt_col2, bt_col3, bt_col4 = st.columns((1, 1, 1, 3))
+    bt_col1, bt_col2, bt_col3, bt_col4 = st.columns((1, 1, 1, 2))
     with bt_col1:
         st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
     with bt_col2:
