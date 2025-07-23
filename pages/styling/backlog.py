@@ -225,7 +225,7 @@ roadmap_data = {
                 "priority": "High",
                 "team": "AI Development",
                 "progress": 0
-            }
+            },
             {
                 "feature": "Timing Expected Ratio",
                 "description": "Feature allowing goals setting before training to analyze in-training performance.",
