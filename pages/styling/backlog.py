@@ -33,7 +33,7 @@ st.markdown("""
     }
     
     .status-planned {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #b193fb 0%, #57b6f5 100%);
     }
     
     .status-on-hold {
@@ -41,7 +41,7 @@ st.markdown("""
     }
     
     .status-refining {
-        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        background: linear-gradient(135deg, #f70000 0%, #00f90f4a 50%, #000000 100%);
     }
     
     .feature-title {
