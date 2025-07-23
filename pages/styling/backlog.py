@@ -40,6 +40,10 @@ st.markdown("""
         background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
     }
     
+    .status-refining {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    }
+    
     .feature-title {
         font-size: 1.5rem;
         font-weight: bold;
@@ -120,12 +124,12 @@ roadmap_data = {
     "quarters": {
         "Q1 2025": [
             {
-                "feature": "Enhanced Timer App R0-R8 Phases",
-                "description": "Implementing Farlek rhythm phases tracker between R0 to R8, including ultra-high intensity R7-R8 phases for sprint training.",
+                "feature": "Enhanced Timer App R9-R12 Phases",
+                "description": "Expand rhythm phases beyond R8 to include ultra-high intensity R9-R12 phases for sprint training.",
                 "status": "Completed",
                 "release_date": "2025-01-15",
                 "priority": "High",
-                "team": "Pedro Ciancaglini",
+                "team": "Core Development",
                 "progress": 100
             },
             {
@@ -134,139 +138,103 @@ roadmap_data = {
                 "status": "Completed", 
                 "release_date": "2025-02-01",
                 "priority": "High",
-                "team": "Pedro Ciancaglini",
+                "team": "GPS Team",
                 "progress": 100
             },
             {
-                "feature": "SPM Counter for Drummers",
-                "description": "SPMs counter for drummers to train rythms and adjust crew. SPM*1 and SPM*4 modules are counting Strokes on each tap.",
-                "status": "Completed",
+                "feature": "Multi-Language Audio Cues",
+                "description": "Support for audio prompts in Spanish, French, German, and Italian for international teams.",
+                "status": "In Progress",
                 "release_date": "2025-03-15",
                 "priority": "Medium", 
-                "team": "Pedro Ciancaglini",
-                "progress": 100
+                "team": "Localization Team",
+                "progress": 75
             }
         ],
         "Q2 2025": [
             {
-                "feature": "Boat Weight Balancer 2.0",
+                "feature": "Advanced Boat Weight Balancer 2.0",
                 "description": "Enhanced balancer with heel/trim optimization, adaptive positioning, and weight shift recommendations.",
-                "status": "Completed",
+                "status": "In Progress",
                 "release_date": "2025-04-30",
                 "priority": "High",
-                "team": "Pedro Ciancaglini",
-                "progress": 100
+                "team": "Algorithm Team",
+                "progress": 45
             },
             {
-                "feature": "RowTok in independent infrastructure",
-                "description": "Migrating RowTok from shared infrastructure to dedicated infrastructure with elastic capabilities to adapt to consumption.",
-                "status": "Completed",
-                "release_date": "2025-04-30",
-                "priority": "High",
-                "team": "Gervasio Merchand",
-                "progress": 100
-            },
-            {
-                "feature": "Sprint Analysis with GPS",
-                "description": "100 meters sprint analysis, including Max Speed, Avg Speed, Distance, time per Sprint, and Sharing Results to Whatsapp Button. Using Rowin AI, run Advanced results analysis of 100m split with power curve modeling and fatigue detection algorithms.",
-                "status": "Completed",
+                "feature": "Team Sync Dashboard",
+                "description": "Real-time data sharing between coach and multiple crew boats with live performance comparison.",
+                "status": "Planned",
                 "release_date": "2025-05-15",
                 "priority": "High",
-                "team": "Pedro Ciancaglini", 
-                "progress": 100
+                "team": "Backend Team", 
+                "progress": 0
             },
             {
-                "feature": "Rear View for Traditional Rowing",
-                "description": "Rear View mirror, including Sprint Advanced 100m split analysis with power curve modeling and fatigue detection algorithms.",
-                "status": "Completed",
+                "feature": "Enhanced Sprints Analytics",
+                "description": "Advanced 100m split analysis with power curve modeling and fatigue detection algorithms.",
+                "status": "Planned",
                 "release_date": "2025-06-30",
                 "priority": "Medium",
-                "team": "Pedro Ciancaglini",
-                "progress": 100
+                "team": "Data Analytics",
+                "progress": 0
             }
         ],
         "Q3 2025": [
             {
-                "feature": "Rowin AI GPT Creation to assist in the use of RowTok",
-                "description": "GPT with analytics capabilities to analyze trainings, explain RowTok modules and advice users on trainings to accomplish goals.",
-                "status": "Completed",
-                "release_date": "2025-07-1",
-                "priority": "High",
-                "team": "Pedro Ciancaglini",
-                "progress": 100
-            },
-            {
-                "feature": "RowTok Suggested Gadgets to hold phones while training",
-                "description": "Listing Recommended gadgets to improve experience of solo rowers.",
+                "feature": "Heart Rate Monitor Integration",
+                "description": "Direct integration with Polar, Garmin, and Wahoo heart rate monitors for combined performance data.",
                 "status": "Planned",
-                "release_date": "2025-08-15",
-                "priority": "Medium",
-                "team": "Pedro Ciancaglini",
-                "progress": 10
-            }
+                "release_date": "2025-07-15",
+                "priority": "High",
+                "team": "Hardware Integration",
+                "progress": 0
+            },
             {
                 "feature": "Weather-Aware Training Suggestions",
                 "description": "Real-time weather integration to suggest optimal training modes based on wind/water conditions.",
                 "status": "Planned", 
                 "release_date": "2025-08-30",
-                "priority": "High",
-                "team": "Pedro Ciancaglini",
-                "progress": 5
+                "priority": "Medium",
+                "team": "Weather API Team",
+                "progress": 0
             },
             {
-                "feature": "SPM Sensor Counting",
-                "description": "Using combination of phone sensors, we will count strokes per minute and log into sprint and SPMs modules.",
+                "feature": "SPM Trainer Mode 5 - Adaptive",
+                "description": "AI-powered stroke rate adaptation based on GPS speed, heart rate, and training phase targets.",
                 "status": "Planned",
                 "release_date": "2025-09-15",
                 "priority": "High",
                 "team": "AI Development",
                 "progress": 0
             }
-            {
-                "feature": "Timing Expected Ratio",
-                "description": "Feature allowing goals setting before training to analyze in-training performance.",
-                "status": "Refining",
-                "release_date": "2025-09-30",
-                "priority": "High",
-                "team": "Pedro Ciancaglini",
-                "progress": 0
-            }
         ],
         "Q4 2025": [
             {
-                "feature": "History Import and Export function (before Login Capability)",
-                "description": "Before Login capability, History Importing and Exporting function to track training progressively.",
-                "status": "Refining",
+                "feature": "360° Camera Integration for Technique Analysis",
+                "description": "Integration with 360° cameras for comprehensive stroke technique recording and analysis.",
+                "status": "Planned",
                 "release_date": "2025-10-31",
                 "priority": "High",
-                "team": "Pedro Ciancaglini", 
-                "progress": 0
-            },
-            {
-                "feature": "Login and Account Management",
-                "description": "Users will be able to create accounts and store their progress and history, managing individual and team training.",
-                "status": "On Hold",
-                "release_date": "2025-12-15",
-                "priority": "High",
-                "team": "Pedro Ciancaglini",
+                "team": "Camera Integration", 
                 "progress": 0
             },
             {
                 "feature": "Regatta Race Day Manager",
                 "description": "Complete race day management with warm-up protocols, lane assignments, and performance tracking.",
                 "status": "On Hold",
-                "release_date": "2025-12-20",
+                "release_date": "2025-11-30",
                 "priority": "Medium",
-                "team": "Pedro Ciancaglini",
+                "team": "Event Management",
                 "progress": 0
             },
             {
                 "feature": "Offline Mode with Data Sync",
                 "description": "Full offline functionality with automatic data synchronization when internet connection is restored.",
                 "status": "Planned",
-                "release_date": "2025-12-30",
+                "release_date": "2025-12-15",
                 "priority": "High",
-                "team": "Pedro Ciancaglini",
+                "team": "Infrastructure Team",
                 "progress": 0
             }
         ]
@@ -278,7 +246,6 @@ def get_status_class(status):
         "Completed": "status-completed",
         "In Progress": "status-in-progress", 
         "Planned": "status-planned",
-        "Refining": "status-refining",
         "On Hold": "status-on-hold"
     }
     return status_classes.get(status, "status-planned")
@@ -288,7 +255,6 @@ def get_status_emoji(status):
         "Completed": "✅",
         "In Progress": "🚧",
         "Planned": "📋", 
-        "Refining": "🪄",
         "On Hold": "⏸️"
     }
     return status_emojis.get(status, "📋")
@@ -298,7 +264,6 @@ def calculate_stats(roadmap_data):
     completed = 0
     in_progress = 0
     planned = 0
-    refining = 0
     on_hold = 0
     
     for quarter, features in roadmap_data["quarters"].items():
@@ -311,8 +276,6 @@ def calculate_stats(roadmap_data):
                 in_progress += 1
             elif status == "Planned":
                 planned += 1
-            elif status == "Refining":
-                refining += 1
             elif status == "On Hold":
                 on_hold += 1
     
@@ -321,7 +284,6 @@ def calculate_stats(roadmap_data):
         "completed": completed,
         "in_progress": in_progress, 
         "planned": planned,
-        "refining": refining,
         "on_hold": on_hold
     }
 
@@ -339,7 +301,7 @@ def main():
     # Statistics
     stats = calculate_stats(roadmap_data)
     
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4, col5, col6 = st.columns(6)
     
     with col1:
         st.markdown(f"""
@@ -375,6 +337,14 @@ def main():
         
     with col5:
         st.markdown(f"""
+        <div class="stat-card status-refining">
+            <h2>{stats['refining']}</h2>
+            <p>🪄 Refining</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    with col6:
+        st.markdown(f"""
         <div class="stat-card status-on-hold">
             <h2>{stats['on_hold']}</h2>
             <p>⏸️ On Hold</p>
@@ -387,6 +357,35 @@ def main():
     st.markdown(f"### 📊 Overall Progress: {completion_rate:.1f}% Complete")
     st.progress(completion_rate / 100)
     
+    # Funding Campaign Message
+    st.markdown("---")
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                border-radius: 15px; 
+                padding: 25px; 
+                margin: 20px 0; 
+                color: white; 
+                text-align: center;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <h2>🚀 Support RowTok's Development</h2>
+        <p style="font-size: 1.1rem; margin: 15px 0;">
+            RowTok is currently a solo startup project developed with passion for the rowing community. 
+            Your support can help accelerate development and bring more features to water sports athletes worldwide!
+        </p>
+        <p style="font-size: 1rem; margin: 15px 0; opacity: 0.9;">
+            <strong>🎯 Funding Goals:</strong><br>
+            • Faster feature development<br>
+            • Enhanced GPS accuracy algorithms<br>
+            • Professional infrastructure scaling<br>
+            • Multi-platform mobile apps<br>
+            • Advanced AI coaching features
+        </p>
+        <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.8;">
+            Interested in contributing or partnering? Contact us to be part of the RowTok journey!
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
     # Roadmap timeline
     st.markdown("---")
     st.markdown("## 🗓️ Development Timeline")
@@ -397,7 +396,7 @@ def main():
     with col1:
         status_filter = st.selectbox(
             "Filter by Status:",
-            ["All", "Completed", "In Progress", "Planned", "On Hold"]
+            ["All", "Completed", "In Progress", "Planned", "Refining", "On Hold"]
         )
     
     with col2:
@@ -409,7 +408,7 @@ def main():
     with col3:
         team_filter = st.selectbox(
             "Filter by Team:",
-            ["All", "Core Development", "GPS Team", "Localization Team", "Algorithm Team", "Backend Team", "Data Analytics", "Hardware Integration", "Weather API Team", "AI Development", "Camera Integration", "Event Management", "Infrastructure Team"]
+            ["All", "Pedro Ciancaglini", "Gervasio Merchand"]
         )
     
     # Display roadmap
@@ -458,16 +457,19 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Progress bar for in-progress items
-            if feature["status"] == "In Progress" and feature["progress"] > 0:
+            # Progress bar for in-progress and refining items
+            if feature["status"] in ["In Progress", "Refining"] and feature["progress"] > 0:
                 st.progress(feature["progress"] / 100)
     
     # Footer
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; padding: 2rem; color: #666;">
-        <p>🌊 Built with passion for water sports excellence 🌊</p>
-        <p><em>This roadmap is subject to change based on user feedback and technical requirements</em></p>
+        <p>🌊 RowTok - Solo Startup Built with Passion for Water Sports Excellence 🌊</p>
+        <p><em>This roadmap is subject to change based on user feedback, funding, and technical requirements</em></p>
+        <p style="font-size: 0.9rem; margin-top: 10px;">
+            <strong>Developer:</strong> Pedro Ciancaglini | <strong>Infrastructure:</strong> Gervasio Merchand
+        </p>
     </div>
     """, unsafe_allow_html=True)
 
