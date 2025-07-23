@@ -78,7 +78,6 @@ st.markdown("""
         font-weight: bold;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     
@@ -105,7 +104,7 @@ st.markdown("""
     .stat-card {
         text-align: center;
         padding: 1rem;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #002bff 0%, #57f5bf 100%);
         border-radius: 10px;
         color: white;
         min-width: 120px;
