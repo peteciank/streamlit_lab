@@ -430,11 +430,11 @@ def main():
     with bt_col1:
         st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
     with bt_col2:
-        st.page_link("pedrociancaglini@gmail.com", label="Email", icon=":material/mail:")
+        st.page_link("https://www.linkedin.com/in/pedrociancaglini/", label="LinkedIn", icon=":material/work:")
     with bt_col3:
-        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+        st.page_link("https://makeachamp.com/peterciank", label="Crowdfunding", icon=":material/crowdsource:")
     with bt_col4:
-        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+        st.page_link("https://youtu.be/GYgs9DkWTjo?list=PL1pP9-LXJpo1BcdAY93EC5q3UPZAaajFD", label="Youtube", icon=":material/youtube_activity:")
 
 
 
