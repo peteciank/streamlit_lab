@@ -424,7 +424,7 @@ def main():
             Interested in contributing or partnering? Contact us to be part of the RowTok journey!
         </p>
         <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.8;">
-            Email me to <link>pedrociancaglini@gmail.com</link>
+            📧 <link>pedrociancaglini@gmail.com</link>
         </p>
     </div>
     """, unsafe_allow_html=True)
