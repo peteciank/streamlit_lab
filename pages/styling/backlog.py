@@ -332,7 +332,7 @@ def main():
     # Header
     st.markdown(f"""
     <div class="app-header">
-        <h1>🚣‍♀️ {roadmap_data['app_info']['name']} 🚣‍♂️</h1>
+        <h1>{roadmap_data['app_info']['name']}</h1>
         <h3>Product Roadmap - Version {roadmap_data['app_info']['version']}</h3>
         <p>Last Updated: {roadmap_data['app_info']['last_updated']}</p>
     </div>
