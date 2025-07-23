@@ -525,5 +525,9 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
+st.sidebar.write("Assistance")
+st.sidebar.markdown("<br><br><br>[✨ Rowin AI GPT](https://chatgpt.com/g/g-685dc2b7bbd8819180f79f4dbe71d450-rowin-ai)", unsafe_allow_html=True)
+
+
 if __name__ == "__main__":
     main()
