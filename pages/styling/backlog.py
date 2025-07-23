@@ -278,6 +278,7 @@ def get_status_class(status):
         "Completed": "status-completed",
         "In Progress": "status-in-progress", 
         "Planned": "status-planned",
+        "Refining": "status-refining",
         "On Hold": "status-on-hold"
     }
     return status_classes.get(status, "status-planned")
@@ -297,6 +298,7 @@ def calculate_stats(roadmap_data):
     completed = 0
     in_progress = 0
     planned = 0
+    refining = 0
     on_hold = 0
     
     for quarter, features in roadmap_data["quarters"].items():
@@ -309,6 +311,8 @@ def calculate_stats(roadmap_data):
                 in_progress += 1
             elif status == "Planned":
                 planned += 1
+            elif status == "Refining":
+                refining += 1
             elif status == "On Hold":
                 on_hold += 1
     
@@ -317,6 +321,7 @@ def calculate_stats(roadmap_data):
         "completed": completed,
         "in_progress": in_progress, 
         "planned": planned,
+        "refining": refining,
         "on_hold": on_hold
     }
 
