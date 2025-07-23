@@ -207,7 +207,7 @@ roadmap_data = {
                 "priority": "Medium",
                 "team": "Pedro Ciancaglini",
                 "progress": 10
-            }
+            },
             {
                 "feature": "Weather-Aware Training Suggestions",
                 "description": "Real-time weather integration to suggest optimal training modes based on wind/water conditions.",
