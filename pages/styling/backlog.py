@@ -423,17 +423,21 @@ def main():
         <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.8;">
             Interested in contributing or partnering? Contact us to be part of the RowTok journey!
         </p>
-        <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.8;">
-            📧 <hyperlink>pedrociancaglini@gmail.com</hyperlink>
-        </p>
     </div>
     """, unsafe_allow_html=True)
 
-    from libs.myside import MySidebar
-    with st.sidebar:
-        MySidebar()
-    
-    MySidebar()
+    bt_col1, bt_col2, bt_col3, bt_col4 = st.columns(1, 1, 1, 5)
+    with bt_col1:
+        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+    with bt_col2:
+        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+    with bt_col3:
+        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+    with bt_col4:
+        st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
+
+
+
     # Roadmap timeline
     st.markdown("---")
     st.markdown("## 🗓️ Development Timeline")
