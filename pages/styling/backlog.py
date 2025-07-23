@@ -430,7 +430,7 @@ def main():
     with bt_col1:
         st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
     with bt_col2:
-        st.page_link("mailto:pedrociancaglini@gmail.com", label="Email", icon=":material/mail:")
+        st.page_link("pedrociancaglini@gmail.com", label="Email", icon=":material/mail:")
     with bt_col3:
         st.page_link("https://pedrociancaglini.streamlit.app/", label="Portfolio", icon=":material/business_chip:")
     with bt_col4:
